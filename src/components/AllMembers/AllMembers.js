@@ -1,106 +1,41 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, SectionList, TouchableOpacity, TouchableHighlight } from 'react-native';
 import MemberCard from './MemberCard';
+import AddSearchOptionsHeaderRight from '../utils/AddSearchOptionsHeaderRight';
+import { normalize } from '../utils/utils'
+import { connect } from 'react-redux';
+import { getMemberList, Members } from '../../actions/MemberAction';
 
-const DATA = [
-    {
-        egf: 'HSR',
-        data: [
-            {
-                id: 1,
-                name: 'Aditya Rathi',
-                image: 'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
-            },
-            {
-                id: 2,
-                name: 'Ausaf',
-                image: 'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
-            },
-            {
-                id: 3,
-                name: 'H D Christopher',
-                image: '',
-            },
-            {
-                id: 4,
-                name: 'Reema T John',
-                image: 'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
-            }
-        ],
-    },
-    {
-        egf: 'Kormangala',
-        data: [
-            {
-                id: 5,
-                name: 'Khan Sahab',
-                image: 'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
-            },
-            {
-                id: 6,
-                name: 'Thomas',
-                image: '',
-            },
-            {
-                id: 7,
-                name: 'John',
-                image: '',
-            }
-        ],
-    },
-    {
-        egf: 'BTM',
-        data: [
-            {
-                id: 8,
-                name: 'Aditya Rathi',
-                image: 'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
-            },
-            {
-                id: 9,
-                name: 'Ausaf',
-                image: 'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
-            },
-            {
-                id: 10,
-                name: 'H D Christopher',
-                image: '',
-            },
-            {
-                id: 11,
-                name: 'Reema T John',
-                image: 'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
-            }
-        ],
-    },
-    {
-        egf: 'Begur',
-        data: [
-            {
-                id: 12,
-                name: 'Khan Sahab',
-                image: 'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
-            },
-            {
-                id: 13,
-                name: 'Thomas',
-                image: '',
-            },
-            {
-                id: 14,
-                name: 'John',
-                image: '',
-            }
-        ],
-    },
-];
-export default class AllMembers extends Component {
+
+class AllMembers extends Component {
     constructor() {
         super();
         this.state = {
-            memberList: DATA,
             selected: null,
+            modalVisible: false,
         }
+    }
+    // componentDidMount() {
+    //     this.didFocusSubscription = this.props.navigation.addListener(
+    //         'didFocus',
+    //         () => this.props.getMemberList()
+    //     );
+    // }
+    // componentWillUnmount(){
+    //     this.didFocusSubscription.remove();
+    // }
+    static navigationOptions = ({ navigationOptions, navigation }) => {
+        return ({
+            title: 'BCSE - All Members',
+            headerStyle: { height: normalize(55) },
+            headerTitleStyle: { fontSize: normalize(20) },
+            headerLeft: (
+                <DrawerIconHeaderLeft navigation={navigation} />
+            ),
+            headerRight: (
+                <AddSearchOptionsHeaderRight navigation={navigation} openAddModal={() => { navigation.navigate('AddMember') }} />
+            )
+        })
     }
     setSelected = (id) => {
         if (this.state.selected == id) {
@@ -121,11 +56,12 @@ export default class AllMembers extends Component {
 
 
     render() {
+
         const { memberListContainer, sectionHeader } = styles;
         return (
             <View style={memberListContainer}>
                 <SectionList
-                    sections={this.state.memberList}
+                    sections={this.props.memberList}
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) => this.renderItem(item)}
                     renderSectionHeader={({ section: { egf } }) => (
@@ -140,17 +76,25 @@ export default class AllMembers extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        memberList: state.MemberReducer.memberList,
+    }
+}
+
+export default connect(mapStateToProps, { getMemberList })(AllMembers);
+
 const styles = {
     memberListContainer: {
-        marginLeft: 5,
-        marginRight: 5,
+        marginLeft: normalize(5),
+        marginRight: normalize(5),
     },
     sectionHeader: {
-        fontSize: 20,
-        paddingTop: 5,
+        fontSize: normalize(20),
+        paddingTop: normalize(5),
         fontWeight: 'bold',
         textAlign: 'left',
-        marginLeft: 20,
+        marginLeft: normalize(20),
         // backgroundColor: '#DDD',
     }
 }

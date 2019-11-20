@@ -6,13 +6,13 @@ import Routes from './routes';
 
 export default class App extends Component {
     render() {
-        // const store = createStore(rootReducer)
+        const store = createStore(rootReducer)
         return (
-            // <Provider store={store}>
+            <Provider store={store}>
                 <Routes>
 
                 </Routes>
-            // </Provider>
+            </Provider>
 
         );
     }

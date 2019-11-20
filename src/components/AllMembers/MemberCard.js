@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TouchableHighlight } from 'react-native';
 import fonts from '../../utils/fonts';
+import { normalize } from '../utils/utils'
 
 
 export default MemberCard = ({ member, selected, setSelected }) => {
@@ -33,7 +34,7 @@ export default MemberCard = ({ member, selected, setSelected }) => {
                         <Text style={userIcon}>&#xf2bd;</Text>
                     </View>
                     <View style={labelContainer}>
-                        <Text style={label}>{member.name}</Text>
+                        <Text style={label}>{member.userName}</Text>
                     </View>
                     <TouchableOpacity style={infoButtonContainer}>
                         <Text style={infoButton}>&#xf05a;</Text>
@@ -42,23 +43,23 @@ export default MemberCard = ({ member, selected, setSelected }) => {
             </TouchableHighlight>
             {selected && <View style={bottomCardContainer}>
                 <TouchableOpacity style={actionButtonContainer}>
-                    <Text style={[{ fontFamily: fonts.solidIcons }, actionButtonIcon]}>&#xf879;</Text>
+                    <Text style={[{ fontFamily: fonts.solidIcons, color: '#444d46' }, actionButtonIcon]}>&#xf879;</Text>
                     <Text style={actionButtonLabel}>Call</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={actionButtonContainer}>
-                    <Text style={[{ fontFamily: fonts.brandIcons }, actionButtonIcon]}>&#xf232;</Text>
+                    <Text style={[{ fontFamily: fonts.brandIcons, color: 'green' }, actionButtonIcon]}>&#xf232;</Text>
                     <Text style={actionButtonLabel}>Watsapp</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={actionButtonContainer}>
-                    <Text style={[{ fontFamily: fonts.regularIons }, actionButtonIcon]}>&#xf0e0;</Text>
+                    <Text style={[{ fontFamily: fonts.regularIons, color: '#e32245' }, actionButtonIcon]}>&#xf0e0;</Text>
                     <Text style={actionButtonLabel}>Mail</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={actionButtonContainer}>
-                    <Text style={[{ fontFamily: fonts.regularIons }, actionButtonIcon]}>&#xf2ed;</Text>
+                    <Text style={[{ fontFamily: fonts.regularIons, color: '#7e807e' }, actionButtonIcon]}>&#xf2ed;</Text>
                     <Text style={actionButtonLabel}>Delete</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={actionButtonContainer}>
-                    <Text style={[{ fontFamily: fonts.solidIcons }, actionButtonIcon]}>&#xf234;</Text>
+                    <Text style={[{ fontFamily: fonts.solidIcons, color: '#5b6778' }, actionButtonIcon]}>&#xf234;</Text>
                     <Text style={actionButtonLabel}>Add</Text>
                 </TouchableOpacity>
             </View>}
@@ -71,16 +72,16 @@ const styles = {
 
     },
     onClickStyleCard: {
-        borderRadius: 10,
-        elevation: 2,
+        borderRadius: normalize(10),
+        elevation: normalize(2),
         borderColor: '#ddd',
-        borderWidth: 0.2,
+        borderWidth: normalize(0.2),
 
     },
     bottomCardContainer: {
         flexDirection: 'row',
-        padding: 5,
-        borderTopWidth: 0.7,
+        padding: normalize(5),
+        borderTopWidth: normalize(0.7),
         borderColor: '#DDD',
         justifyContent: 'space-evenly',
     },
@@ -90,14 +91,15 @@ const styles = {
     },
     actionButtonIcon: {
         textAlign: 'center',
-        fontSize: 28,
+        fontSize: normalize(28),
     },
     actionButtonLabel: {
         textAlign: 'center',
+        color: '#465446'
     },
     cardContainerClickable: {
-        padding: 10,
-        borderRadius: 5,
+        padding: normalize(10),
+        borderRadius: normalize(5),
 
     },
     cardContainer: {
@@ -107,7 +109,7 @@ const styles = {
     userIconContainer: {
         alignItem: 'center',
         justifyContent: 'center',
-        borderRadius: 20,
+        borderRadius: normalize(20),
         // width: 40,
         // height: 40,
         flex: 1,
@@ -118,15 +120,16 @@ const styles = {
         // height: 40,
         color: 'orange',
         fontFamily: fonts.solidIcons,
-        fontSize: 40,
+        fontSize: normalize(40),
     },
     labelContainer: {
         alignItem: 'center',
         justifyContent: 'center',
-        flex: 2,
+        flex: 3,
     },
     label: {
-        fontSize: 22,
+        fontSize: normalize(22),
+        color: '#465446',
     },
     infoButtonContainer: {
         alignItem: 'center',
@@ -135,9 +138,9 @@ const styles = {
     },
     infoButton: {
         textAlign: 'center',
-        color: '#000',
+        color: '#0077be',
         fontFamily: fonts.solidIcons,
-        fontSize: 30,
+        fontSize: normalize(30),
     }
 
 }

@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import AddSearchOptionsHeaderRight from '../utils/AddSearchOptionsHeaderRight';
 
 export default class Bills extends Component {
+    static navigationOptions = ({ navigationOptions, navigation }) => {
+        return ({
+            headerRight: (
+                <AddSearchOptionsHeaderRight navigation={navigation} />
+            )
+        })
+    }
 
     render() {
         return (

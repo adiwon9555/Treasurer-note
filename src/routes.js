@@ -13,6 +13,10 @@ import UpcomingEvents from './components/Events/UpcomingEvents';
 import PassedEvents from './components/Events/PassedEvents';
 import fonts from './utils/fonts';
 import AllMembers from './components/AllMembers/AllMembers';
+import DrawerIconHeaderLeft from './components/utils/DrawerIconHeaderLeft';
+import AddSearchOptionsHeaderRight from './components/utils/AddSearchOptionsHeaderRight';
+import AddMember from './components/AllMembers/AddMember';
+import { normalize } from '../src/components/utils/utils'
 
 const DrawerNavigator = initialComponent => createDrawerNavigator({
     Home: initialComponent,
@@ -41,13 +45,10 @@ const ContributorStackNavigator = createStackNavigator({
     {
         defaultNavigationOptions: ({ navigation }) => ({
             title: 'BCSE - Contributors',
+            headerStyle: { height: normalize(55) },
+            headerTitleStyle: { fontSize: normalize(20) },
             headerLeft: (
-                <TouchableOpacity
-                    onPress={navigation.openDrawer}
-                    style={{ paddingLeft: 10 }}
-                >
-                    <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, paddingLeft: 10 }}>&#xf0c9;</Text>
-                </TouchableOpacity>
+                <DrawerIconHeaderLeft navigation={navigation} />
             ),
         })
     }
@@ -57,20 +58,15 @@ const AllMembersNavigator = createStackNavigator({
     AllMembers: {
         screen: AllMembers
     },
+    AddMember: {
+        screen: AddMember
+    }
 
 },
     {
         initialRouteName: 'AllMembers',
         defaultNavigationOptions: ({ navigation }) => ({
-            title: 'BCSE - All Members',
-            headerLeft: (
-                <TouchableOpacity
-                    onPress={navigation.openDrawer}
-                    style={{ paddingLeft: 10 }}
-                >
-                    <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, paddingLeft: 10 }}>&#xf0c9;</Text>
-                </TouchableOpacity>
-            ),
+            
         })
     }
 )
@@ -83,13 +79,13 @@ const EventsStackNavigator = createStackNavigator({
     {
         defaultNavigationOptions: ({ navigation }) => ({
             title: 'BCSE - Events',
+            headerStyle: { height: normalize(55) },
+            headerTitleStyle: { fontSize: normalize(20) },
             headerLeft: (
-                <TouchableOpacity
-                    onPress={navigation.openDrawer}
-                    style={{ paddingLeft: 10 }}
-                >
-                    <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, paddingLeft: 10 }}>&#xf0c9;</Text>
-                </TouchableOpacity>
+                <DrawerIconHeaderLeft navigation={navigation} />
+            ),
+            headerRight: (
+                <AddSearchOptionsHeaderRight navigation={navigation} />
             ),
         })
     }
@@ -102,14 +98,11 @@ const MonthlyContributionsNavigator = createStackNavigator({
 },
     {
         defaultNavigationOptions: ({ navigation }) => ({
-            title: 'BCSE - Monthly Contributions',
+            title: 'BCSE - Statements',
+            headerStyle: { height: normalize(55) },
+            headerTitleStyle: { fontSize: normalize(20) },
             headerLeft: (
-                <TouchableOpacity
-                    onPress={navigation.openDrawer}
-                    style={{ paddingLeft: 10 }}
-                >
-                    <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, paddingLeft: 10 }}>&#xf0c9;</Text>
-                </TouchableOpacity>
+                <DrawerIconHeaderLeft navigation={navigation} />
             ),
         })
     }
@@ -123,13 +116,10 @@ const BillsNavigator = createStackNavigator({
     {
         defaultNavigationOptions: ({ navigation }) => ({
             title: 'BCSE - Bills',
+            headerStyle: { height: normalize(55) },
+            headerTitleStyle: { fontSize: normalize(20) },
             headerLeft: (
-                <TouchableOpacity
-                    onPress={navigation.openDrawer}
-                    style={{ paddingLeft: 10 }}
-                >
-                    <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, paddingLeft: 10 }}>&#xf0c9;</Text>
-                </TouchableOpacity>
+                <DrawerIconHeaderLeft navigation={navigation}/>
             ),
         })
     }
@@ -140,35 +130,35 @@ const TabNavigator = createBottomTabNavigator({
         screen: AllMembersNavigator,
         navigationOptions: {
             tabBarLabel: 'Members',
-            tabBarIcon: ({ tintColor }) => <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, color: tintColor }}>&#xf0c0;</Text>,
+            tabBarIcon: ({ tintColor }) => <Text style={[styles.tabIconStyle, { color: tintColor }]}>&#xf0c0;</Text>,
         }
     },
     Contributors: {
         screen: ContributorStackNavigator,
         navigationOptions: {
             tabBarLabel: 'Contributors',
-            tabBarIcon: ({ tintColor }) => <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, color: tintColor }}>&#xf0d6;</Text>,
+            tabBarIcon: ({ tintColor }) => <Text style={[styles.tabIconStyle, { color: tintColor }]}>&#xf0d6;</Text>,
         }
     },
     Monthly: {
         screen: MonthlyContributionsNavigator,
         navigationOptions: {
             tabBarLabel: 'Monthly',
-            tabBarIcon: ({ tintColor }) => <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, color: tintColor }}>&#xf080;</Text>,
+            tabBarIcon: ({ tintColor }) => <Text style={[styles.tabIconStyle, { color: tintColor }]}>&#xf080;</Text>,
         }
     },
     Events: {
         screen: EventsStackNavigator,
         navigationOptions: {
             tabBarLabel: 'Events',
-            tabBarIcon: ({ tintColor }) => <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, color: tintColor }}>&#xf133;</Text>,
+            tabBarIcon: ({ tintColor }) => <Text style={[styles.tabIconStyle, { color: tintColor }]}>&#xf133;</Text>,
         }
     },
     Bills: {
         screen: BillsNavigator,
         navigationOptions: {
             tabBarLabel: 'Bills',
-            tabBarIcon: ({ tintColor }) => <Text style={{ fontFamily: fonts.solidIcons, fontSize: 20, color: tintColor }}>&#xf09d;</Text>,
+            tabBarIcon: ({ tintColor }) => <Text style={[styles.tabIconStyle, { color: tintColor }]}>&#xf09d;</Text>,
         }
     }
 }, {
@@ -180,15 +170,15 @@ const TabNavigator = createBottomTabNavigator({
             // activeTintColor: '#e6632f',
             // inactiveTintColor: '#9b9b9b',
             labelStyle: {
-                fontSize: 12,
+                fontSize: normalize(12),
                 // paddingTop: 10,
-                paddingBottom: 2,
+                paddingBottom: normalize(5),
             },
             style: {
-                // height: 55,
+                height: normalize(55),
                 backgroundColor: '#fff',
                 // paddingBottom: 4,
-                // paddingTop: 15,
+                paddingTop: normalize(5),
             },
         }
 
@@ -204,5 +194,12 @@ export default class Routes extends Component {
         return (
             <AppContainer></AppContainer>
         );
+    }
+}
+
+const styles = {
+    tabIconStyle: {
+        fontFamily: fonts.solidIcons,
+        fontSize: normalize(20),
     }
 }

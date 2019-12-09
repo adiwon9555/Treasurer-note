@@ -1,6 +1,7 @@
 import { Members } from "../actions/MemberAction"
 
 const initialState = {
+    // memberList: [],
     memberList: [
         {
             egf: 'HSR',
@@ -97,18 +98,29 @@ const initialState = {
 }
 
 export const MemberReducer = (state = initialState, action) => {
-    let newState = {}
+    let newState = {};
+    let egf = '';
     switch (action.type) {
         case Members.MEMBERLIST:
             return state;
         case Members.ADDMEMBER:
-            const egf = action.payload.egf;
-            const data = action.payload.data;
+            egf = action.payload.egf;
+            let data = action.payload.data;
             newState = Object.assign({}, state, {
                 memberList: state.memberList.map(item => item.egf === egf ? { egf, data: [...item.data, data] } : item)
             });
             return newState;
-
+        case Members.REMOVEMEMBER:
+            egf = action.payload.egf;
+            newState = Object.assign({}, state, {
+                memberList: state.memberList.map(item => item.egf === egf 
+                    ? { 
+                        egf, data: item.data.filter(member => !(member.id===action.payload.id))
+                    } 
+                    : 
+                    item)
+            });
+            return newState;
         default:
             return state;
     }

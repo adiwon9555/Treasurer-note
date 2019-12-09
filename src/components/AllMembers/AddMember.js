@@ -39,7 +39,8 @@ class AddMember extends Component {
                 image: '',
                 phone,
                 email,
-                notes
+                notes,
+                egf
             }
         }
         this.props.addMember(member);

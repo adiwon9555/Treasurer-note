@@ -4,7 +4,7 @@ import fonts from '../../utils/fonts';
 import { normalize } from '../utils/utils'
 
 
-export default MemberCard = ({ member, selected, setSelected }) => {
+export default MemberCard = ({ member, selected, setSelected, deleteMember }) => {
     const {
         cardContainer,
         userIconContainer,
@@ -24,10 +24,11 @@ export default MemberCard = ({ member, selected, setSelected }) => {
 
     // const [cardOpen, setCardOpen] = useState(false);
     return (
+
         <View style={selected ? onClickStyleCard : entireCardView}>
             <TouchableHighlight style={cardContainerClickable}
                 underlayColor={'#DDDDDD'}
-                onPress={() => setSelected(member.id)}
+                onPress={() => setSelected(member.id, member.egf)}
             >
                 <View style={cardContainer}>
                     <View style={userIconContainer}>
@@ -41,6 +42,7 @@ export default MemberCard = ({ member, selected, setSelected }) => {
                     </TouchableOpacity>
                 </View>
             </TouchableHighlight>
+
             {selected && <View style={bottomCardContainer}>
                 <TouchableOpacity style={actionButtonContainer}>
                     <Text style={[{ fontFamily: fonts.solidIcons, color: '#444d46' }, actionButtonIcon]}>&#xf879;</Text>
@@ -54,7 +56,7 @@ export default MemberCard = ({ member, selected, setSelected }) => {
                     <Text style={[{ fontFamily: fonts.regularIons, color: '#e32245' }, actionButtonIcon]}>&#xf0e0;</Text>
                     <Text style={actionButtonLabel}>Mail</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={actionButtonContainer}>
+                <TouchableOpacity style={actionButtonContainer} onPress={deleteMember}>
                     <Text style={[{ fontFamily: fonts.regularIons, color: '#7e807e' }, actionButtonIcon]}>&#xf2ed;</Text>
                     <Text style={actionButtonLabel}>Delete</Text>
                 </TouchableOpacity>
@@ -63,6 +65,7 @@ export default MemberCard = ({ member, selected, setSelected }) => {
                     <Text style={actionButtonLabel}>Add</Text>
                 </TouchableOpacity>
             </View>}
+
         </View>
     );
 }

@@ -4,7 +4,7 @@ import MemberCard from './MemberCard';
 import AddSearchOptionsHeaderRight from '../utils/AddSearchOptionsHeaderRight';
 import { normalize } from '../utils/utils'
 import { connect } from 'react-redux';
-import { getMemberList, Members } from '../../actions/MemberAction';
+import { getMemberList, removeMember } from '../../actions/MemberAction';
 
 
 class AllMembers extends Component {
@@ -13,6 +13,7 @@ class AllMembers extends Component {
         this.state = {
             selected: null,
             modalVisible: false,
+            selectedEgf: null,
         }
     }
     // componentDidMount() {
@@ -37,21 +38,33 @@ class AllMembers extends Component {
             )
         })
     }
-    setSelected = (id) => {
+    setSelected = (id, egf) => {
         if (this.state.selected == id) {
             this.setState({
                 selected: null,
+                selectedEgf: null,
             })
         } else {
             this.setState({
-                selected: id
+                selected: id,
+                selectedEgf: egf,
             })
         }
     }
 
-    renderItem = (item) => {
+    renderItem = ({ item, section }) => {
         selected = this.state.selected == item.id ? true : false;
-        return <MemberCard selected={selected} setSelected={this.setSelected} member={item}></MemberCard>
+        item.egf = item.egf || section.egf;
+        return <MemberCard
+            selected={selected}
+            setSelected={this.setSelected}
+            member={item}
+            deleteMember={this.deleteMember}
+        />
+    }
+
+    deleteMember = () => {
+        this.props.removeMember({ id: this.state.selected, egf: this.state.selectedEgf });
     }
 
 
@@ -63,7 +76,7 @@ class AllMembers extends Component {
                 <SectionList
                     sections={this.props.memberList}
                     keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => this.renderItem(item)}
+                    renderItem={this.renderItem}
                     renderSectionHeader={({ section: { egf } }) => (
                         // <View style={{minWidth:30}}>
                         <Text style={sectionHeader}>{egf}</Text>
@@ -82,7 +95,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { getMemberList })(AllMembers);
+export default connect(mapStateToProps, { getMemberList, removeMember })(AllMembers);
 
 const styles = {
     memberListContainer: {

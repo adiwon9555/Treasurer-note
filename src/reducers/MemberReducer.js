@@ -100,14 +100,36 @@ const initialState = {
 export const MemberReducer = (state = initialState, action) => {
     let newState = {};
     let egf = '';
+    let data={};
     switch (action.type) {
         case Members.MEMBERLIST:
             return state;
         case Members.ADDMEMBER:
             egf = action.payload.egf;
-            let data = action.payload.data;
+            data = action.payload.data;
             newState = Object.assign({}, state, {
                 memberList: state.memberList.map(item => item.egf === egf ? { egf, data: [...item.data, data] } : item)
+            });
+            return newState;
+        case Members.EDITMEMBER:
+            egf = action.payload.egf;
+            data = action.payload.data;
+            newState = Object.assign({}, state, {
+                memberList: state.memberList.map
+                    (item => item.egf === egf
+                        ?
+                        {
+                            egf, data: item.data.map
+                                (member => (member.id === data.id)
+                                    ?
+                                    data
+                                    :
+                                    member
+                                )
+                        }
+                        :
+                        item
+                    )
             });
             return newState;
         case Members.REMOVEMEMBER:

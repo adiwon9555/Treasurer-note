@@ -4,7 +4,8 @@ import fonts from '../../utils/fonts';
 import { normalize } from '../utils/utils'
 
 
-export default MemberCard = ({ member, selected, setSelected, deleteMember }) => {
+export default MemberCard = (props) => {
+    const { member, selected, setSelected, deleteMember, navigation } = props;
     const {
         cardContainer,
         userIconContainer,
@@ -37,6 +38,10 @@ export default MemberCard = ({ member, selected, setSelected, deleteMember }) =>
         if(member.email)
             Linking.openURL(`mailto:${member.email}`)
     }
+
+    const onInfoClick = () => {
+        navigation.navigate('AddMember',{member});
+    }
     // const [cardOpen, setCardOpen] = useState(false);
     return (
 
@@ -52,7 +57,7 @@ export default MemberCard = ({ member, selected, setSelected, deleteMember }) =>
                     <View style={labelContainer}>
                         <Text style={label}>{member.userName}</Text>
                     </View>
-                    <TouchableOpacity style={infoButtonContainer}>
+                    <TouchableOpacity onPress={onInfoClick} style={infoButtonContainer}>
                         <Text style={infoButton}>&#xf05a;</Text>
                     </TouchableOpacity>
                 </View>

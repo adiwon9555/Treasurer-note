@@ -2,6 +2,7 @@ export const Members = {
     MEMBERLIST: 'MEMBERLIST',
     ADDMEMBER: 'ADDMEMBER',
     REMOVEMEMBER: 'REMOVEMEMBER',
+    EDITMEMBER: 'EDITMEMBER',
 }
 
 export const getMemberList = () => {
@@ -11,6 +12,11 @@ export const getMemberList = () => {
 export const addMember = (payload) => {
     return { type: Members.ADDMEMBER, payload }
 }
+
+export const editMember = (payload) => {
+    return { type: Members.EDITMEMBER, payload }
+}
+
 export const removeMember = (payload) => {
     return { type: Members.REMOVEMEMBER, payload }
 }

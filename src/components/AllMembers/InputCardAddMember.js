@@ -26,7 +26,7 @@ export const CARD_INPUT_TYPE = {
         keyboardType: 'default',
     },
 }
-export default InputCardAddMember = ({ type, placeholder, value, onChangeText }) => {
+export default InputCardAddMember = ({ type, placeholder, value, onChangeText, editable }) => {
     const {
         inputCard,
         inputIcon,
@@ -39,9 +39,10 @@ export default InputCardAddMember = ({ type, placeholder, value, onChangeText })
             <TextInput
                 keyboardType={type.keyboardType}
                 style={textInputStyle}
-                placeholder={placeholder}
+                placeholder={editable ? placeholder : ''}
                 value={value}
                 onChangeText={(value) => onChangeText(value,type.type)}
+                editable={editable}
             />
 
         </View>

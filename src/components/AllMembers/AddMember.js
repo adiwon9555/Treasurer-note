@@ -5,7 +5,7 @@ import GoBackIconHeaderLeft, { ICONSTYLE } from '../utils/GoBackIconHeaderLeft';
 import InputCardAddMember, { CARD_INPUT_TYPE } from './InputCardAddMember';
 import { normalize } from '../utils/utils'
 import fonts from '../../utils/fonts';
-import { addMember } from '../../actions/MemberAction'
+import { addMember, editMember } from '../../actions/MemberAction'
 const { USERNAME, EGF, PHONE, EMAIL, NOTES } = CARD_INPUT_TYPE;
 
 class AddMember extends Component {
@@ -17,11 +17,60 @@ class AddMember extends Component {
             [PHONE.type]: '',
             [EMAIL.type]: '',
             [NOTES.type]: '',
+            editable: true,
         }
     }
-    componentDidMount() {
-        this.props.navigation.setParams({ saveMember: this.saveMember })
+    static navigationOptions = ({ navigation }) => {
+        const member = navigation.getParam('member');
+        const editable = navigation.getParam('editable', member == null ? true : false);
+        const title = member != null ? 'BCSE - Member Info' : 'BCSE - Add Member';
+        return (
+            {
+                title,
+                headerStyle: { height: normalize(55) },
+                headerTitleStyle: { fontSize: normalize(20) },
+                headerRight: (
+                    <TouchableOpacity
+                        onPress={editable ? navigation.getParam('saveMember') : navigation.getParam('setEditableTrue')}
+                        style={{ paddingRight: 15 }}
+                    >
+
+                        <Text style={{ color: 'green', fontSize: normalize(20) }}>{editable ? 'Save' : 'Edit'}</Text>
+                    </TouchableOpacity>
+
+                ),
+                headerLeft: (
+                    <GoBackIconHeaderLeft navigation={navigation} iconStyle={ICONSTYLE.CROSS} />
+                ),
+            }
+        )
     }
+    componentDidMount() {
+        this.props.navigation.setParams({ saveMember: this.saveMember, setEditableTrue: this.setEditableTrue, editable: this.state.editable })
+        const member = this.editMember = this.props.navigation.getParam('member', null);
+        if (member != null) {
+            this.setState({
+                [USERNAME.type]: member.userName,
+                [EGF.type]: member.egf,
+                [PHONE.type]: member.phone,
+                [EMAIL.type]: member.email,
+                [NOTES.type]: member.notes,
+                editable: false,
+            })
+        }
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.editable != prevState.editable) {
+            this.props.navigation.setParams({ editable: this.state.editable })
+        }
+    }
+
+    setEditableTrue = () => {
+        this.setState({
+            editable: true
+        })
+    }
+
     saveMember = () => {
         const {
             [USERNAME.type]: userName,
@@ -34,7 +83,7 @@ class AddMember extends Component {
         const member = {
             egf,
             data: {
-                id: this.uuidv4(),
+                id: this.editMember ? this.editMember.id : this.uuidv4(),
                 userName,
                 image: '',
                 phone,
@@ -43,7 +92,11 @@ class AddMember extends Component {
                 egf
             }
         }
-        this.props.addMember(member);
+        if (this.editMember != null) {
+            this.props.editMember(member);
+        } else {
+            this.props.addMember(member);
+        }
         this.props.navigation.goBack();
     }
     uuidv4 = () => {
@@ -54,28 +107,7 @@ class AddMember extends Component {
     }
 
 
-    static navigationOptions = ({ navigation }) => {
-        return (
-            {
-                title: 'BCSE - Add Member',
-                headerStyle: { height: normalize(55) },
-                headerTitleStyle: { fontSize: normalize(20) },
-                headerRight: (
-                    <TouchableOpacity
-                        onPress={navigation.getParam('saveMember')}
-                        style={{ paddingRight: 15 }}
-                    >
 
-                        <Text style={{ color: 'green', fontSize: normalize(20) }}>Save</Text>
-                    </TouchableOpacity>
-
-                ),
-                headerLeft: (
-                    <GoBackIconHeaderLeft navigation={navigation} iconStyle={ICONSTYLE.CROSS} />
-                ),
-            }
-        )
-    }
     onInputChange = (value, type) => {
         this.setState({
             [type]: value
@@ -86,11 +118,8 @@ class AddMember extends Component {
         const {
             mainContainer,
             addImageIcon,
-            inputCard,
-            inputIcon,
             imageContainer,
             imageWrapper,
-            textInputStyle,
         } = styles;
         return (
             <ScrollView style={mainContainer}>
@@ -108,6 +137,7 @@ class AddMember extends Component {
                     placeholder='Full Name'
                     onChangeText={this.onInputChange}
                     value={this.state[USERNAME.type]}
+                    editable={this.state.editable}
                 />
 
                 <InputCardAddMember
@@ -115,6 +145,7 @@ class AddMember extends Component {
                     placeholder='EGF Name'
                     onChangeText={this.onInputChange}
                     value={this.state[EGF.type]}
+                    editable={this.state.editable}
                 />
 
                 <InputCardAddMember
@@ -122,6 +153,7 @@ class AddMember extends Component {
                     placeholder='Phone'
                     onChangeText={this.onInputChange}
                     value={this.state[PHONE.type]}
+                    editable={this.state.editable}
                 />
 
                 <InputCardAddMember
@@ -129,6 +161,7 @@ class AddMember extends Component {
                     placeholder='Email'
                     value={this.state[EMAIL.type]}
                     onChangeText={this.onInputChange}
+                    editable={this.state.editable}
                 />
 
                 <InputCardAddMember
@@ -136,6 +169,7 @@ class AddMember extends Component {
                     placeholder='Notes'
                     onChangeText={this.onInputChange}
                     value={this.state[NOTES.type]}
+                    editable={this.state.editable}
                 />
 
             </ScrollView>
@@ -144,7 +178,7 @@ class AddMember extends Component {
 
 }
 
-export default connect('', { addMember })(AddMember);
+export default connect('', { addMember, editMember })(AddMember);
 
 const styles = {
     mainContainer: {
@@ -163,23 +197,5 @@ const styles = {
         fontFamily: fonts.solidIcons,
         fontSize: normalize(30),
         color: '#fff',
-    },
-    inputCard: {
-        marginTop: normalize(10),
-        flexDirection: 'row',
-        alignItems: 'center',
-
-    },
-    inputIcon: {
-        fontFamily: fonts.solidIcons,
-        fontSize: normalize(24),
-        color: 'gray',
-        flex: 1,
-    },
-    textInputStyle: {
-        flex: 7,
-        fontSize: normalize(18),
-        borderColor: 'gray',
-        borderBottomWidth: normalize(1)
     }
 }

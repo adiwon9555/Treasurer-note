@@ -60,6 +60,7 @@ class AllMembers extends Component {
             setSelected={this.setSelected}
             member={item}
             deleteMember={this.deleteMember}
+            navigation={this.props.navigation}
         />
     }
 

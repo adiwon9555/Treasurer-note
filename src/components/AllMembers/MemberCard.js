@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableHighlight, Linking } from 'react-native';
 import fonts from '../../utils/fonts';
 import { normalize } from '../utils/utils'
 
@@ -21,7 +21,22 @@ export default MemberCard = ({ member, selected, setSelected, deleteMember }) =>
         actionButtonIcon,
         actionButtonLabel,
     } = styles;
+    const DISABLED_COLOR = '#D3D3D3';
 
+    const onCallPress = () => {
+        if(member.phone)
+            Linking.openURL(`tel:${member.phone}`);
+    }
+
+    const onWatsAppPress = () => {
+        if(member.phone)
+            Linking.openURL(`https://api.whatsapp.com/send?phone=${member.phone}`)
+    }
+
+    const onMailPress = () => {
+        if(member.email)
+            Linking.openURL(`mailto:${member.email}`)
+    }
     // const [cardOpen, setCardOpen] = useState(false);
     return (
 
@@ -44,17 +59,17 @@ export default MemberCard = ({ member, selected, setSelected, deleteMember }) =>
             </TouchableHighlight>
 
             {selected && <View style={bottomCardContainer}>
-                <TouchableOpacity style={actionButtonContainer}>
-                    <Text style={[{ fontFamily: fonts.solidIcons, color: '#444d46' }, actionButtonIcon]}>&#xf879;</Text>
-                    <Text style={actionButtonLabel}>Call</Text>
+                <TouchableOpacity onPress={onCallPress} activeOpacity={member.phone ? 0.2 : 1} style={actionButtonContainer}>
+                    <Text style={[{ fontFamily: fonts.solidIcons, color: (member.phone ? '#444d46' : DISABLED_COLOR ) }, actionButtonIcon]}>&#xf879;</Text>
+                    <Text style={[actionButtonLabel,{color: member.phone ? '#444d46' : DISABLED_COLOR}]}>Call</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={actionButtonContainer}>
-                    <Text style={[{ fontFamily: fonts.brandIcons, color: 'green' }, actionButtonIcon]}>&#xf232;</Text>
-                    <Text style={actionButtonLabel}>Watsapp</Text>
+                <TouchableOpacity onPress={onWatsAppPress} activeOpacity={member.phone ? 0.2 : 1} style={actionButtonContainer}>
+                    <Text style={[{ fontFamily: fonts.brandIcons, color: (member.phone ?  'green' : DISABLED_COLOR ) }, actionButtonIcon]}>&#xf232;</Text>
+                    <Text style={[actionButtonLabel,{color: member.phone ? '#444d46' : DISABLED_COLOR}]}>Watsapp</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={actionButtonContainer}>
-                    <Text style={[{ fontFamily: fonts.regularIons, color: '#e32245' }, actionButtonIcon]}>&#xf0e0;</Text>
-                    <Text style={actionButtonLabel}>Mail</Text>
+                <TouchableOpacity onPress={onMailPress} activeOpacity={member.email ? 0.2 : 1} style={actionButtonContainer}>
+                    <Text style={[{ fontFamily: fonts.regularIons, color: (member.email ? '#e32245' : DISABLED_COLOR ) }, actionButtonIcon]}>&#xf0e0;</Text>
+                    <Text style={[actionButtonLabel,{color: member.email ? '#444d46' : DISABLED_COLOR}]}>Mail</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={actionButtonContainer} onPress={deleteMember}>
                     <Text style={[{ fontFamily: fonts.regularIons, color: '#7e807e' }, actionButtonIcon]}>&#xf2ed;</Text>
@@ -98,7 +113,7 @@ const styles = {
     },
     actionButtonLabel: {
         textAlign: 'center',
-        color: '#465446'
+        color: '#444d46',
     },
     cardContainerClickable: {
         padding: normalize(10),

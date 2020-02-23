@@ -4,16 +4,16 @@ import fonts from '../../utils/fonts';
 import { normalize } from './utils'
 
 
-export default AddSearchOptionsHeaderRight = ({ navigation, openAddModal }) => {
+export default AddSearchOptionsHeaderRight = ({ navigation, openAddModal, toggleSearch, searchIcon }) => {
     const { iconContainer, iconStyle } = styles;
     return (
         <View style={iconContainer}>
             <TouchableOpacity
-                onPress={navigation.openDrawer}
+                onPress={toggleSearch}
                 style={{}}
             >
 
-                <Text style={iconStyle}>&#xf002;</Text>
+                {searchIcon && <Text style={iconStyle}>&#xf002;</Text>}
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={openAddModal}

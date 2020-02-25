@@ -11,7 +11,7 @@ import {normalize} from '../utils/utils';
 import Contacts from 'react-native-contacts';
 
 export default MemberCard = props => {
-  const {member, selected, setSelected, deleteMember, navigation} = props;
+  const {member, selected, setSelected, deleteMember, navigation, markItem, markedItems} = props;
   const {
     cardContainer,
     userIconContainer,
@@ -27,6 +27,7 @@ export default MemberCard = props => {
     actionButtonContainer,
     actionButtonIcon,
     actionButtonLabel,
+    memberMarked
   } = styles;
   const DISABLED_COLOR = '#D3D3D3';
 
@@ -70,17 +71,15 @@ export default MemberCard = props => {
       // form is open
     });
   };
-
-  const enableMarking = () => {
-    
-  }
+  let marked = markedItems.includes(member.id);
+  
   return (
-    <View style={selected ? onClickStyleCard : entireCardView}>
+    <View style={selected ? onClickStyleCard : marked ? memberMarked : entireCardView}>
       <TouchableHighlight
         style={cardContainerClickable}
         underlayColor={'#DDDDDD'}
-        onPress={() => setSelected(member.id, member.egf)}
-        onLongPress={enableMarking}>
+        onPress={() => markedItems.length>0 ? markItem(member.id, member.egf) : setSelected(member.id, member.egf)}
+        onLongPress={() => markItem(member.id, member.egf)}>
         <View style={cardContainer}>
           <View style={userIconContainer}>
             <Text style={userIcon}>&#xf2bd;</Text>
@@ -263,4 +262,7 @@ const styles = {
     fontFamily: fonts.solidIcons,
     fontSize: normalize(30),
   },
+  memberMarked: {
+    backgroundColor: '#DDD',
+  }
 };

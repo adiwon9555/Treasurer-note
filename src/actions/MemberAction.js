@@ -14,6 +14,8 @@ export const addMember = (payload) => {
 }
 
 export const editMember = (payload) => {
+    console.log('@aditya action');
+    
     return { type: Members.EDITMEMBER, payload }
 }
 

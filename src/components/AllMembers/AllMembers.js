@@ -1,10 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  SectionList,
-  BackHandler
-} from 'react-native';
+import {View, Text, SectionList, BackHandler, Linking} from 'react-native';
 import MemberCard from './MemberCard';
 import AddSearchOptionsHeaderRight from '../utils/AddSearchOptionsHeaderRight';
 import {normalize} from '../utils/utils';
@@ -13,6 +8,7 @@ import {getMemberList, removeMember} from '../../actions/MemberAction';
 import SearchBox from './SearchBox';
 import DrawerIconHeaderLeft from '../utils/DrawerIconHeaderLeft';
 import memoize from 'memoize-one';
+import MarkedItemActionBox from './MarkedItemActionBox';
 
 class AllMembers extends Component {
   constructor() {
@@ -23,6 +19,7 @@ class AllMembers extends Component {
       selectedEgf: null,
       filterText: '',
       showSearchBox: false,
+      markedItems: [],
     };
   }
   componentDidMount() {
@@ -30,14 +27,19 @@ class AllMembers extends Component {
     //       'didFocus',
     //       () => this.props.getMemberList()
     //   );
-    BackHandler.addEventListener('hardwareBackPress', () =>  {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (this.state.showSearchBox || this.state.markedItems.length > 0) {
         if (this.state.showSearchBox) {
           this.closeSearch();
-          return true;
         }
-        return false;
-      });
-    this.props.navigation.setParams({toggleSearch: this.toggleSearch})
+        if(this.state.markedItems.length > 0){
+          this.cancelSelection();
+        }
+        return true;
+      }
+      return false;
+    });
+    this.props.navigation.setParams({toggleSearch: this.toggleSearch});
   }
   // componentWillUnmount(){
   //     this.didFocusSubscription.remove();
@@ -54,8 +56,8 @@ class AllMembers extends Component {
           openAddModal={() => {
             navigation.navigate('AddMember');
           }}
-          searchIcon={navigation.getParam('searchIcon',true)}
-          toggleSearch={navigation.getParam('toggleSearch',()=>{})}
+          searchIcon={navigation.getParam('searchIcon', true)}
+          toggleSearch={navigation.getParam('toggleSearch', () => {})}
         />
       ),
     };
@@ -73,9 +75,56 @@ class AllMembers extends Component {
       });
     }
   };
+  markItem = (id, egf) => {
+    let marked = this.state.markedItems.includes(id);
+    if (marked) {
+      this.setState({
+        markedItems: this.state.markedItems.filter(mid => mid !== id),
+        selected: null,
+        selectedEgf: null,
+      });
+    } else {
+      this.setState({
+        markedItems: [...this.state.markedItems, id],
+        selected: null,
+        selectedEgf: null,
+      });
+    }
+  };
+  cancelSelection = () => {
+    this.setState({
+      markedItems: [],
+    });
+  };
+
+  markAll = () => {
+    this.setState({
+      markedItems: this.props.memberList.flatMap(egfLevel =>
+        egfLevel.data.map(member => member.id),
+      ),
+    });
+  };
+  
+  markAllEgf = () => {
+    let egfs = this.props.memberList.flatMap(egfLevel => egfLevel.data.map(member => {
+      return this.state.markedItems.includes(member.id) ? egfLevel.egf : '';
+    }));
+    this.setState({
+      markedItems: this.props.memberList.filter(egfLevel => egfs.includes(egfLevel.egf)).flatMap(egfLevel =>
+        egfLevel.data.map(member => member.id),
+      ),
+    });
+  }
+
+  onMailPress = () => {
+    let emails = this.props.memberList.flatMap(egfLevel => egfLevel.data.map(member => {
+      return this.state.markedItems.includes(member.id) ? member.email : '';
+    }));
+    if (emails.length > 0) Linking.openURL(`mailto:${emails.toString()}`);
+  };
 
   renderItem = ({item, section}) => {
-    selected = this.state.selected == item.id ? true : false;
+    let selected = this.state.selected == item.id ? true : false;
     item.egf = item.egf || section.egf;
     return (
       <MemberCard
@@ -84,61 +133,98 @@ class AllMembers extends Component {
         member={item}
         deleteMember={this.deleteMember}
         navigation={this.props.navigation}
+        markItem={this.markItem}
+        markedItems={this.state.markedItems}
       />
     );
   };
 
   deleteMember = () => {
-    this.props.removeMember({
-      id: this.state.selected,
-      egf: this.state.selectedEgf,
-    });
+    if (this.state.selected) {
+      this.props.removeMember({
+        ids: [this.state.selected],
+        egf: this.state.selectedEgf,
+      });
+    } else if (this.state.markedItems.length > 0) {
+      this.props.removeMember({
+        ids: this.state.markedItems,
+        egf: null,
+      });
+      this.setState({
+        markedItems: [],
+      });
+    }
   };
 
   onSearch = value => {
-    this.setState({ filterText: value });
+    this.setState({filterText: value});
   };
 
   toggleSearch = () => {
-      this.setState({
-          showSearchBox: !this.state.showSearchBox,
-          filterText: '',
-      },() => {
-        this.props.navigation.setParams({searchIcon: !this.state.showSearchBox})
-      })
-      
-  }
+    this.setState(
+      {
+        showSearchBox: !this.state.showSearchBox,
+        filterText: '',
+      },
+      () => {
+        this.props.navigation.setParams({
+          searchIcon: !this.state.showSearchBox,
+        });
+      },
+    );
+  };
 
   closeSearch = () => {
-      this.setState({
-          filterText : '',
-          showSearchBox: false,
-      }, () => {
-        this.props.navigation.setParams({searchIcon: !this.state.showSearchBox})
-      })
+    this.setState(
+      {
+        filterText: '',
+        showSearchBox: false,
+      },
+      () => {
+        this.props.navigation.setParams({
+          searchIcon: !this.state.showSearchBox,
+        });
+      },
+    );
+  };
 
-  }
-
-  filter = memoize((list, filterText) =>{
+  filter = memoize((list, filterText) => {
     // list.filter(item => item.egf.toLowerCase().includes(filterText.toLowerCase()));
-    let temp =  list.map(item => ({egf :item.egf, data: item.data.filter( members =>
-        members.userName.toLowerCase().includes(filterText.toLowerCase())
-    )}))
+    let temp = list.map(item => ({
+      egf: item.egf,
+      data: item.data.filter(members =>
+        members.userName.toLowerCase().includes(filterText.toLowerCase()),
+      ),
+    }));
     return temp.filter(item => item.data.length > 0);
   });
 
   render() {
     const {showSearchBox} = this.state;
     const {memberListContainer, sectionHeader} = styles;
-    const filteredList = this.filter(this.props.memberList, this.state.filterText);
+    const filteredList = this.filter(
+      this.props.memberList,
+      this.state.filterText,
+    );
     return (
       <View style={memberListContainer}>
-        {showSearchBox && <SearchBox
-          placeholder="Search Member"
-          onChangeText={this.onSearch}
-          value={this.state.filterText}
-          closeSearch= {this.closeSearch}
-        />}
+        {showSearchBox && (
+          <SearchBox
+            placeholder="Search Member"
+            onChangeText={this.onSearch}
+            value={this.state.filterText}
+            closeSearch={this.closeSearch}
+          />
+        )}
+        {this.state.markedItems.length > 0 && (
+          <MarkedItemActionBox
+            cancelSelection={this.cancelSelection}
+            markAll={this.markAll}
+            deleteMember={this.deleteMember}
+            onMailPress={this.onMailPress}
+            markAllEgf={this.markAllEgf}
+          />
+        )}
         <SectionList
           sections={filteredList}
           keyExtractor={(item, index) => item + index}

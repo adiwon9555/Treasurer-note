@@ -49,6 +49,7 @@ class AddMember extends Component {
         this.props.navigation.setParams({ saveMember: this.saveMember, setEditableTrue: this.setEditableTrue, editable: this.state.editable })
         const member = this.editMember = this.props.navigation.getParam('member', null);
         if (member != null) {
+            this.oldegf = member.egf;
             this.setState({
                 [USERNAME.type]: member.userName,
                 [EGF.type]: member.egf,
@@ -93,7 +94,7 @@ class AddMember extends Component {
             }
         }
         if (this.editMember != null) {
-            this.props.editMember(member);
+            this.props.editMember({member, oldegf: this.oldegf});
         } else {
             this.props.addMember(member);
         }

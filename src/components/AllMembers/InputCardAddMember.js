@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, Picker} from 'react-native';
 import {normalize} from '../utils/utils';
 import fonts from '../../utils/fonts';
 
@@ -41,14 +41,32 @@ export default InputCardAddMember = ({
   return (
     <View style={inputCard}>
       {getIcon(type.type)}
-      <TextInput
-        keyboardType={type.keyboardType}
-        style={textInputStyle}
-        placeholder={editable ? placeholder : ''}
-        value={value}
-        onChangeText={value => onChangeText(value, type.type)}
-        editable={editable}
-      />
+      {type.type === CARD_INPUT_TYPE.EGF.type ? (
+        <View style={textInputStyle}>
+          {/* <Text>Select EGF</Text> */}
+          <Picker
+            enabled={editable}
+            selectedValue={value ? value : ''}
+            mode={'dropdown'}
+            prompt={type.type}
+            onValueChange={value => onChangeText(value, type.type)}>
+            <Picker.Item label="HSR" value="HSR" />
+            <Picker.Item label="Kormangala" value="Kormangala" />
+            <Picker.Item label="BTM" value="BTM" />
+            <Picker.Item label="Begur" value="Begur" />
+            {!value && <Picker.Item label="Select Egf" value="" />}
+          </Picker>
+        </View>
+      ) : (
+        <TextInput
+          keyboardType={type.keyboardType}
+          style={textInputStyle}
+          placeholder={editable ? placeholder : ''}
+          value={value}
+          onChangeText={value => onChangeText(value, type.type)}
+          editable={editable}
+        />
+      )}
     </View>
   );
 };

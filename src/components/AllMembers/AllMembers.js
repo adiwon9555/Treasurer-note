@@ -9,6 +9,7 @@ import SearchBox from './SearchBox';
 import DrawerIconHeaderLeft from '../utils/DrawerIconHeaderLeft';
 import memoize from 'memoize-one';
 import MarkedItemActionBox from './MarkedItemActionBox';
+import {SaveExcel} from '../export-excel/Playground';
 
 class AllMembers extends Component {
   constructor() {
@@ -32,7 +33,7 @@ class AllMembers extends Component {
         if (this.state.showSearchBox) {
           this.closeSearch();
         }
-        if(this.state.markedItems.length > 0){
+        if (this.state.markedItems.length > 0) {
           this.cancelSelection();
         }
         return true;
@@ -40,6 +41,7 @@ class AllMembers extends Component {
       return false;
     });
     this.props.navigation.setParams({toggleSearch: this.toggleSearch});
+    this.props.navigation.setParams({saveExcel: this.saveExcel});
   }
   // componentWillUnmount(){
   //     this.didFocusSubscription.remove();
@@ -56,11 +58,27 @@ class AllMembers extends Component {
           openAddModal={() => {
             navigation.navigate('AddMember');
           }}
+          saveExcel = {navigation.getParam('saveExcel', () => {})}
           searchIcon={navigation.getParam('searchIcon', true)}
           toggleSearch={navigation.getParam('toggleSearch', () => {})}
         />
       ),
     };
+  };
+  saveExcel = () => {
+    let c = 1;
+    const data = this.props.memberList.flatMap((egfLevel) => egfLevel.data.map((item) => ({
+        Serial_No: c++,
+        Id: item.id,
+        Name: item.userName,
+        EGF: egfLevel.egf,
+        Phone: item.phone,
+        Email: item.email,
+        Image: item.image,
+        Notes: item.notes,
+      }))
+    );
+    SaveExcel(data);
   };
   setSelected = (id, egf) => {
     if (this.state.selected == id) {
@@ -104,22 +122,26 @@ class AllMembers extends Component {
       ),
     });
   };
-  
+
   markAllEgf = () => {
-    let egfs = this.props.memberList.flatMap(egfLevel => egfLevel.data.map(member => {
-      return this.state.markedItems.includes(member.id) ? egfLevel.egf : '';
-    }));
+    let egfs = this.props.memberList.flatMap(egfLevel =>
+      egfLevel.data.map(member => {
+        return this.state.markedItems.includes(member.id) ? egfLevel.egf : '';
+      }),
+    );
     this.setState({
-      markedItems: this.props.memberList.filter(egfLevel => egfs.includes(egfLevel.egf)).flatMap(egfLevel =>
-        egfLevel.data.map(member => member.id),
-      ),
+      markedItems: this.props.memberList
+        .filter(egfLevel => egfs.includes(egfLevel.egf))
+        .flatMap(egfLevel => egfLevel.data.map(member => member.id)),
     });
-  }
+  };
 
   onMailPress = () => {
-    let emails = this.props.memberList.flatMap(egfLevel => egfLevel.data.map(member => {
-      return this.state.markedItems.includes(member.id) ? member.email : '';
-    }));
+    let emails = this.props.memberList.flatMap(egfLevel =>
+      egfLevel.data.map(member => {
+        return this.state.markedItems.includes(member.id) ? member.email : '';
+      }),
+    );
     if (emails.length > 0) Linking.openURL(`mailto:${emails.toString()}`);
   };
 

@@ -4,10 +4,15 @@ import fonts from '../../utils/fonts';
 import { normalize } from './utils'
 
 
-export default AddSearchOptionsHeaderRight = ({ navigation, openAddModal, toggleSearch, searchIcon }) => {
+export default AddSearchOptionsHeaderRight = ({ navigation, openAddModal, toggleSearch, searchIcon, saveExcel }) => {
     const { iconContainer, iconStyle } = styles;
     return (
         <View style={iconContainer}>
+            <TouchableOpacity
+                onPress={saveExcel}
+            >
+               <Text style={iconStyle}>&#xf382;</Text>
+            </TouchableOpacity>
             <TouchableOpacity
                 onPress={toggleSearch}
                 style={{}}
@@ -35,6 +40,6 @@ const styles = {
         fontFamily: fonts.solidIcons,
         fontSize: normalize(24),
         color: 'gray',
-        margin: normalize(10),
+        margin: normalize(8),
     }
 }

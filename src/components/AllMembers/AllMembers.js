@@ -50,7 +50,7 @@ class AllMembers extends Component {
     return {
       title: 'BCSE - All Members',
       headerStyle: {height: normalize(55)},
-      headerTitleStyle: {fontSize: normalize(20)},
+      headerTitleStyle: {fontSize: normalize(20), marginLeft: -normalize(3)},
       headerLeft: <DrawerIconHeaderLeft navigation={navigation} />,
       headerRight: (
         <AddSearchOptionsHeaderRight

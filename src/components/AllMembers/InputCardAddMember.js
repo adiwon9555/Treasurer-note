@@ -28,6 +28,10 @@ export const CARD_INPUT_TYPE = {
     type: 'SEARCH',
     keyboardType: 'default',
   },
+  IMAGE: {
+    type: 'IMAGE',
+    keyboardType: 'default',
+  },
 };
 export default InputCardAddMember = ({
   type,

@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Linking,
+  Image
 } from 'react-native';
 import fonts from '../../utils/fonts';
-import {normalize} from '../utils/utils';
+import {normalize, isEmpty} from '../utils/utils';
 import Contacts from 'react-native-contacts';
 
 export default MemberCard = props => {
@@ -27,7 +28,8 @@ export default MemberCard = props => {
     actionButtonContainer,
     actionButtonIcon,
     actionButtonLabel,
-    memberMarked
+    memberMarked,
+    userImage
   } = styles;
   const DISABLED_COLOR = '#D3D3D3';
 
@@ -72,6 +74,10 @@ export default MemberCard = props => {
     });
   };
   let marked = markedItems.includes(member.id);
+  // const profileIcon =
+  //     userData.profilePicUrl ? { uri: userData.profilePicUrl } :
+  //       USER_DEFAULT;
+  const profileIcon ={ uri: member.image };
   
   return (
     <View style={selected ? onClickStyleCard : marked ? memberMarked : entireCardView}>
@@ -82,7 +88,18 @@ export default MemberCard = props => {
         onLongPress={() => markItem(member.id, member.egf)}>
         <View style={cardContainer}>
           <View style={userIconContainer}>
-            <Text style={userIcon}>&#xf2bd;</Text>
+            {isEmpty(profileIcon.uri) ? 
+              <Text style={userIcon}>&#xf2bd;</Text>
+              :
+              <Image
+              style={userImage}
+              source={profileIcon}
+              resizeMode={
+
+                member.image ? 'cover' :
+                  'contain'
+              } />
+            }
           </View>
           <View style={labelContainer}>
             <Text style={label}>{member.userName}</Text>
@@ -264,5 +281,14 @@ const styles = {
   },
   memberMarked: {
     backgroundColor: '#DDD',
-  }
+  },
+  userImage: {
+    // flex: 1,
+    height: normalize(40),
+    width: normalize(40),
+    borderRadius: normalize(20),
+    borderColor: "rgba(51, 51, 51, 0.1)",
+    borderWidth: 2,
+    marginLeft: normalize(17),
+  },
 };

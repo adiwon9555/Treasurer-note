@@ -7,26 +7,34 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Image,
+  ImageBackground
 } from 'react-native';
 import GoBackIconHeaderLeft, {ICONSTYLE} from '../utils/GoBackIconHeaderLeft';
 import InputCardAddMember, {CARD_INPUT_TYPE} from './InputCardAddMember';
-import {normalize} from '../utils/utils';
+import {normalize, isEmpty} from '../utils/utils';
 import fonts from '../../utils/fonts';
 import {addMember, editMember} from '../../actions/MemberAction';
 import { SaveExcel } from '../export-excel/Playground';
-const {USERNAME, EGF, PHONE, EMAIL, NOTES} = CARD_INPUT_TYPE;
+const {USERNAME, EGF, PHONE, EMAIL, NOTES, IMAGE} = CARD_INPUT_TYPE;
 
 class AddMember extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       [USERNAME.type]: '',
       [EGF.type]: '',
       [PHONE.type]: '',
       [EMAIL.type]: '',
       [NOTES.type]: '',
+      [IMAGE.type]: '',
       editable: true,
     };
+    props.navigation.setParams({
+      saveMember: this.saveMember,
+      setEditableTrue: this.setEditableTrue,
+      editable: this.state.editable,
+    });
   }
   static navigationOptions = ({navigation}) => {
     const member = navigation.getParam('member');
@@ -48,7 +56,7 @@ class AddMember extends Component {
           }
           style={{paddingRight: 15}}>
           <Text style={{color: 'green', fontSize: normalize(20)}}>
-            {editable ? 'Save' : 'Edit'}
+            {navigation.getParam('saveMember','') == '' || navigation.getParam('setEditableTrue','') == '' ? 'Load..': editable ? 'Save' : 'Edit'}
           </Text>
         </TouchableOpacity>
       ),
@@ -61,11 +69,7 @@ class AddMember extends Component {
     };
   };
   componentDidMount() {
-    this.props.navigation.setParams({
-      saveMember: this.saveMember,
-      setEditableTrue: this.setEditableTrue,
-      editable: this.state.editable,
-    });
+    
     const member = (this.editMember = this.props.navigation.getParam(
       'member',
       null,
@@ -78,6 +82,7 @@ class AddMember extends Component {
         [PHONE.type]: member.phone,
         [EMAIL.type]: member.email,
         [NOTES.type]: member.notes,
+        [IMAGE.type]: member.image,
         editable: false,
       });
     }
@@ -85,6 +90,13 @@ class AddMember extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.editable != prevState.editable) {
       this.props.navigation.setParams({editable: this.state.editable});
+    }
+    const newImageParam = this.props.navigation.getParam('imagePath','');
+    const oldImageParam = prevProps.navigation.getParam('imagePath','');
+    if(newImageParam !== oldImageParam){
+      this.setState({
+        [IMAGE.type]: newImageParam,
+      })
     }
   }
 
@@ -100,6 +112,7 @@ class AddMember extends Component {
       [EGF.type]: egf,
       [PHONE.type]: phone,
       [EMAIL.type]: email,
+      [IMAGE.type]: image,
       [NOTES.type]: notes,
     } = this.state;
 
@@ -108,7 +121,7 @@ class AddMember extends Component {
       data: {
         id: this.editMember ? this.editMember.id : this.uuidv4(),
         userName,
-        image: '',
+        image,
         phone,
         email,
         notes,
@@ -135,15 +148,20 @@ class AddMember extends Component {
       [type]: value,
     });
   };
+  changeImageClick = () => {
+    this.props.navigation.navigate('CameraScreen');
+  }
   render() {
-    const {mainContainer, addImageIcon, imageContainer, imageWrapper} = styles;
+    const profileIcon ={ uri: this.state[IMAGE.type] };
+    const {mainContainer, addImageIcon, imageContainer, imageWrapper, userImage,fillerText} = styles;
     return (
       <ScrollView style={mainContainer}>
-        <View style={imageContainer}>
-          <View style={imageWrapper}>
-            <Text style={[addImageIcon, {}]}>&#xf083;</Text>
-          </View>
-        </View>
+        <TouchableOpacity onPress={this.changeImageClick} disabled={!this.state.editable} style={imageContainer}>
+            <ImageBackground source={profileIcon} style={imageWrapper}>
+              {(this.state.editable || isEmpty(profileIcon.uri)) && <Text style={[addImageIcon, {}]}>&#xf083;</Text>}
+            </ImageBackground>
+          
+        </TouchableOpacity>
         {/* <View style={inputCard}>
                     <Text style={inputIcon}>&#xf007;</Text>
                     <TextInput style={textInputStyle} placeholder='Full name' ></TextInput>
@@ -204,12 +222,28 @@ const styles = {
   },
   imageWrapper: {
     backgroundColor: '#0077be',
-    padding: normalize(20),
     borderRadius: normalize(40),
+    overflow: 'hidden',
+    width:normalize(80),
+    height:normalize(80),
   },
   addImageIcon: {
     fontFamily: fonts.solidIcons,
-    fontSize: normalize(30),
+    fontSize: normalize(25),
     color: '#fff',
+    // margin:normalize(24),
+    margin:normalize(27),
   },
+  userImage: {
+    height: normalize(80),
+    width: normalize(80),
+    borderRadius: normalize(80),
+    borderColor: "rgba(51, 51, 51, 0.1)",
+    borderWidth: 2,
+    // marginLeft: normalize(17),
+  },
+  fillerText:{
+    paddingVertical:normalize(7),
+    width:normalize(30),
+  }
 };

@@ -8,22 +8,22 @@ export const ICONSTYLE = {
     ARROW: 'ARROW',
 }
 
-const renderIcon = (iconStyle) => {
+const renderIcon = (iconStyle,iconExtraStyles) => {
     switch (iconStyle) {
         case ICONSTYLE.CROSS:
-            return <Text style={styles.drawerBarIconStyle}>&#xf00d;</Text>;
+            return <Text style={[styles.drawerBarIconStyle,iconExtraStyles]}>&#xf00d;</Text>;
         default:
-            return <Text style={styles.drawerBarIconStyle}>&#xf060;</Text>;
+            return <Text style={[styles.drawerBarIconStyle,iconExtraStyles]}>&#xf060;</Text>;
 
     }
 }
-export default GoBackIconHeaderLeft = ({ navigation, iconStyle }) => {
+export default GoBackIconHeaderLeft = ({ navigation, iconStyle, onPress , iconExtraStyles,containerStyle}) => {
     return (
         <TouchableOpacity
-            onPress={() => { navigation.goBack() }}
-            style={styles.iconContainer}
+            onPress={onPress ? onPress : () => { navigation.goBack() }}
+            style={[styles.iconContainer,containerStyle]}
         >
-            {renderIcon(iconStyle)}
+            {renderIcon(iconStyle,iconExtraStyles)}
         </TouchableOpacity>
     )
 }

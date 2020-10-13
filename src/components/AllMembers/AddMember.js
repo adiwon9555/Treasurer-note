@@ -16,6 +16,7 @@ import {normalize, isEmpty} from '../utils/utils';
 import fonts from '../../utils/fonts';
 import {addMember, editMember} from '../../actions/MemberAction';
 import { SaveExcel } from '../export-excel/Playground';
+import ImageViewScreen from '../utils/ImageViewScreen';
 const {USERNAME, EGF, PHONE, EMAIL, NOTES, IMAGE} = CARD_INPUT_TYPE;
 
 class AddMember extends Component {
@@ -29,6 +30,7 @@ class AddMember extends Component {
       [NOTES.type]: '',
       [IMAGE.type]: '',
       editable: true,
+      showImage: false,
     };
     props.navigation.setParams({
       saveMember: this.saveMember,
@@ -149,7 +151,19 @@ class AddMember extends Component {
     });
   };
   changeImageClick = () => {
-    this.props.navigation.navigate('CameraScreen');
+    const profileIcon ={ uri: this.state[IMAGE.type] };
+    if((!this.state.editable && !isEmpty(profileIcon.uri))){
+      this.setState({
+        showImage:true,
+      })
+    }else if(this.state.editable){
+      this.props.navigation.navigate('CameraScreen');
+    }
+  }
+  onModalClose=()=>{
+    this.setState({
+      showImage:false
+    })
   }
   render() {
     const profileIcon ={ uri: this.state[IMAGE.type] };
@@ -157,13 +171,16 @@ class AddMember extends Component {
     return (
       <ScrollView style={mainContainer}>
         <View style={imageContainer}>
+        <TouchableOpacity onPress={this.changeImageClick} disabled={(!this.state.editable && isEmpty(profileIcon.uri))}>
             <ImageBackground source={profileIcon} style={imageWrapper}>
-              <TouchableOpacity onPress={this.changeImageClick} disabled={!this.state.editable}>
-              {(this.state.editable || isEmpty(profileIcon.uri)) && <Text style={[addImageIcon, {}]}>&#xf083;</Text>}
-              </TouchableOpacity>
+              {(!this.state.editable && isEmpty(profileIcon.uri)) ?
+                 <Text style={[addImageIcon, {fontSize: normalize(30)}]}>&#xf007;</Text>
+                  :
+                  (this.state.editable || isEmpty(profileIcon.uri)) && <Text style={[addImageIcon, {}]}>&#xf083;</Text>}
             </ImageBackground>
-          
+            </TouchableOpacity>
         </View>
+
         {/* <View style={inputCard}>
                     <Text style={inputIcon}>&#xf007;</Text>
                     <TextInput style={textInputStyle} placeholder='Full name' ></TextInput>
@@ -207,6 +224,7 @@ class AddMember extends Component {
           value={this.state[NOTES.type]}
           editable={this.state.editable}
         />
+        {this.state.showImage && <ImageViewScreen navigation={this.props.navigation} profileIcon={profileIcon} onModalClose={this.onModalClose}/>}
       </ScrollView>
     );
   }
@@ -228,13 +246,13 @@ const styles = {
     overflow: 'hidden',
     width:normalize(80),
     height:normalize(80),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   addImageIcon: {
     fontFamily: fonts.solidIcons,
     fontSize: normalize(25),
     color: '#fff',
-    // margin:normalize(24),
-    margin:normalize(27),
   },
   userImage: {
     height: normalize(80),

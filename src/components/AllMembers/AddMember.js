@@ -156,12 +156,14 @@ class AddMember extends Component {
     const {mainContainer, addImageIcon, imageContainer, imageWrapper, userImage,fillerText} = styles;
     return (
       <ScrollView style={mainContainer}>
-        <TouchableOpacity onPress={this.changeImageClick} disabled={!this.state.editable} style={imageContainer}>
+        <View style={imageContainer}>
             <ImageBackground source={profileIcon} style={imageWrapper}>
+              <TouchableOpacity onPress={this.changeImageClick} disabled={!this.state.editable}>
               {(this.state.editable || isEmpty(profileIcon.uri)) && <Text style={[addImageIcon, {}]}>&#xf083;</Text>}
+              </TouchableOpacity>
             </ImageBackground>
           
-        </TouchableOpacity>
+        </View>
         {/* <View style={inputCard}>
                     <Text style={inputIcon}>&#xf007;</Text>
                     <TextInput style={textInputStyle} placeholder='Full name' ></TextInput>

@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Linking,
-  Image
+  Image,
+  ImageBackground
 } from 'react-native';
 import fonts from '../../utils/fonts';
 import {normalize, isEmpty} from '../utils/utils';
@@ -87,20 +88,12 @@ export default MemberCard = props => {
         onPress={() => markedItems.length>0 ? markItem(member.id, member.egf) : setSelected(member.id, member.egf)}
         onLongPress={() => markItem(member.id, member.egf)}>
         <View style={cardContainer}>
-          <View style={userIconContainer}>
-            {isEmpty(profileIcon.uri) ? 
-              <Text style={userIcon}>&#xf2bd;</Text>
-              :
-              <Image
-              style={userImage}
-              source={profileIcon}
-              resizeMode={
-
-                member.image ? 'cover' :
-                  'contain'
-              } />
-            }
-          </View>
+        <View style={userIconContainer}>
+            <ImageBackground style={userImage} source={profileIcon}>
+              {(isEmpty(profileIcon.uri)) && <Text style={[userIcon, {}]}>&#xf007;</Text>}
+            </ImageBackground>
+          
+        </View>
           <View style={labelContainer}>
             <Text style={label}>{member.userName}</Text>
           </View>
@@ -253,11 +246,12 @@ const styles = {
   },
   userIcon: {
     textAlign: 'center',
+    lineHeight: normalize(39),
     // width: 40,
     // height: 40,
-    color: 'orange',
+    color: 'white',
     fontFamily: fonts.solidIcons,
-    fontSize: normalize(40),
+    fontSize: normalize(27),
   },
   labelContainer: {
     alignItem: 'center',
@@ -283,12 +277,14 @@ const styles = {
     backgroundColor: '#DDD',
   },
   userImage: {
+    backgroundColor: 'orange',
+    overflow: 'hidden',
     // flex: 1,
     height: normalize(40),
     width: normalize(40),
     borderRadius: normalize(20),
     borderColor: "rgba(51, 51, 51, 0.1)",
-    borderWidth: 2,
+    borderWidth: 1,
     marginLeft: normalize(17),
   },
 };

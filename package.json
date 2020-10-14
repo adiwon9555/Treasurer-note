@@ -67,9 +67,11 @@
     }
   },
   "lint-staged": {
-    "./src/*.{js,jsx,ts,tsx}": [
+    "*.{js,jsx}": [
       "npx prettier --write",
-      "eslint src/*.js --fix-dry-run"
+      "eslint src/*.js --fix-dry-run",
+      "git add",
+      "eslint --fix"
     ]
   }
 }

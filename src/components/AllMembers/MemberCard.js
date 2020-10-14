@@ -6,14 +6,22 @@ import {
   TouchableHighlight,
   Linking,
   Image,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import fonts from '../../utils/fonts';
 import {normalize, isEmpty} from '../utils/utils';
 import Contacts from 'react-native-contacts';
 
-export default MemberCard = props => {
-  const {member, selected, setSelected, deleteMember, navigation, markItem, markedItems} = props;
+export default (MemberCard = props => {
+  const {
+    member,
+    selected,
+    setSelected,
+    deleteMember,
+    navigation,
+    markItem,
+    markedItems,
+  } = props;
   const {
     cardContainer,
     userIconContainer,
@@ -30,7 +38,7 @@ export default MemberCard = props => {
     actionButtonIcon,
     actionButtonLabel,
     memberMarked,
-    userImage
+    userImage,
   } = styles;
   const DISABLED_COLOR = '#D3D3D3';
 
@@ -78,22 +86,30 @@ export default MemberCard = props => {
   // const profileIcon =
   //     userData.profilePicUrl ? { uri: userData.profilePicUrl } :
   //       USER_DEFAULT;
-  const profileIcon ={ uri: member.image };
-  
+  const profileIcon = {uri: member.image};
+
   return (
-    <View style={selected ? onClickStyleCard : marked ? memberMarked : entireCardView}>
+    <View
+      style={
+        selected ? onClickStyleCard : marked ? memberMarked : entireCardView
+      }>
       <TouchableHighlight
         style={cardContainerClickable}
         underlayColor={'#DDDDDD'}
-        onPress={() => markedItems.length>0 ? markItem(member.id, member.egf) : setSelected(member.id, member.egf)}
+        onPress={() =>
+          markedItems.length > 0
+            ? markItem(member.id, member.egf)
+            : setSelected(member.id, member.egf)
+        }
         onLongPress={() => markItem(member.id, member.egf)}>
         <View style={cardContainer}>
-        <View style={userIconContainer}>
+          <View style={userIconContainer}>
             <ImageBackground style={userImage} source={profileIcon}>
-              {(isEmpty(profileIcon.uri)) && <Text style={[userIcon, {}]}>&#xf007;</Text>}
+              {isEmpty(profileIcon.uri) && (
+                <Text style={[userIcon, {}]}>&#xf007;</Text>
+              )}
             </ImageBackground>
-          
-        </View>
+          </View>
           <View style={labelContainer}>
             <Text style={label}>{member.userName}</Text>
           </View>
@@ -199,7 +215,7 @@ export default MemberCard = props => {
       )}
     </View>
   );
-};
+});
 
 const styles = {
   entireCardView: {},
@@ -283,7 +299,7 @@ const styles = {
     height: normalize(40),
     width: normalize(40),
     borderRadius: normalize(20),
-    borderColor: "rgba(51, 51, 51, 0.1)",
+    borderColor: 'rgba(51, 51, 51, 0.1)',
     borderWidth: 1,
     marginLeft: normalize(17),
   },

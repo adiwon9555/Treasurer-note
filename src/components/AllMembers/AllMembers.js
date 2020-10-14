@@ -58,7 +58,7 @@ class AllMembers extends Component {
           openAddModal={() => {
             navigation.navigate('AddMember');
           }}
-          saveExcel = {navigation.getParam('saveExcel', () => {})}
+          saveExcel={navigation.getParam('saveExcel', () => {})}
           searchIcon={navigation.getParam('searchIcon', true)}
           toggleSearch={navigation.getParam('toggleSearch', () => {})}
         />
@@ -67,7 +67,8 @@ class AllMembers extends Component {
   };
   saveExcel = () => {
     let c = 1;
-    const data = this.props.memberList.flatMap((egfLevel) => egfLevel.data.map((item) => ({
+    const data = this.props.memberList.flatMap(egfLevel =>
+      egfLevel.data.map(item => ({
         Serial_No: c++,
         Id: item.id,
         Name: item.userName,
@@ -76,7 +77,7 @@ class AllMembers extends Component {
         Email: item.email,
         Image: item.image,
         Notes: item.notes,
-      }))
+      })),
     );
     SaveExcel(data);
   };
@@ -268,9 +269,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {getMemberList, removeMember})(
-  AllMembers,
-);
+export default connect(
+  mapStateToProps,
+  {getMemberList, removeMember},
+)(AllMembers);
 
 const styles = {
   memberListContainer: {

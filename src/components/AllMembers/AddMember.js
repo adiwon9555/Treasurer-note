@@ -8,14 +8,14 @@ import {
   TextInput,
   ScrollView,
   Image,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import GoBackIconHeaderLeft, {ICONSTYLE} from '../utils/GoBackIconHeaderLeft';
 import InputCardAddMember, {CARD_INPUT_TYPE} from './InputCardAddMember';
 import {normalize, isEmpty} from '../utils/utils';
 import fonts from '../../utils/fonts';
 import {addMember, editMember} from '../../actions/MemberAction';
-import { SaveExcel } from '../export-excel/Playground';
+import {SaveExcel} from '../export-excel/Playground';
 import ImageViewScreen from '../utils/ImageViewScreen';
 const {USERNAME, EGF, PHONE, EMAIL, NOTES, IMAGE} = CARD_INPUT_TYPE;
 
@@ -58,7 +58,12 @@ class AddMember extends Component {
           }
           style={{paddingRight: 15}}>
           <Text style={{color: 'green', fontSize: normalize(20)}}>
-            {navigation.getParam('saveMember','') == '' || navigation.getParam('setEditableTrue','') == '' ? 'Load..': editable ? 'Save' : 'Edit'}
+            {navigation.getParam('saveMember', '') == '' ||
+            navigation.getParam('setEditableTrue', '') == ''
+              ? 'Load..'
+              : editable
+              ? 'Save'
+              : 'Edit'}
           </Text>
         </TouchableOpacity>
       ),
@@ -71,7 +76,6 @@ class AddMember extends Component {
     };
   };
   componentDidMount() {
-    
     const member = (this.editMember = this.props.navigation.getParam(
       'member',
       null,
@@ -93,12 +97,12 @@ class AddMember extends Component {
     if (this.state.editable != prevState.editable) {
       this.props.navigation.setParams({editable: this.state.editable});
     }
-    const newImageParam = this.props.navigation.getParam('imagePath','');
-    const oldImageParam = prevProps.navigation.getParam('imagePath','');
-    if(newImageParam !== oldImageParam){
+    const newImageParam = this.props.navigation.getParam('imagePath', '');
+    const oldImageParam = prevProps.navigation.getParam('imagePath', '');
+    if (newImageParam !== oldImageParam) {
       this.setState({
         [IMAGE.type]: newImageParam,
-      })
+      });
     }
   }
 
@@ -138,7 +142,9 @@ class AddMember extends Component {
     this.props.navigation.goBack();
   };
   uuidv4 = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (
+      c,
+    ) {
       var r = (Math.random() * 16) | 0,
         v = c == 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
@@ -151,34 +157,48 @@ class AddMember extends Component {
     });
   };
   changeImageClick = () => {
-    const profileIcon ={ uri: this.state[IMAGE.type] };
-    if((!this.state.editable && !isEmpty(profileIcon.uri))){
+    const profileIcon = {uri: this.state[IMAGE.type]};
+    if (!this.state.editable && !isEmpty(profileIcon.uri)) {
       this.setState({
-        showImage:true,
-      })
-    }else if(this.state.editable){
+        showImage: true,
+      });
+    } else if (this.state.editable) {
       this.props.navigation.navigate('CameraScreen');
     }
-  }
-  onModalClose=()=>{
+  };
+  onModalClose = () => {
     this.setState({
-      showImage:false
-    })
-  }
+      showImage: false,
+    });
+  };
   render() {
-    const profileIcon ={ uri: this.state[IMAGE.type] };
-    const {mainContainer, addImageIcon, imageContainer, imageWrapper, userImage,fillerText} = styles;
+    const profileIcon = {uri: this.state[IMAGE.type]};
+    const {
+      mainContainer,
+      addImageIcon,
+      imageContainer,
+      imageWrapper,
+      userImage,
+      fillerText,
+    } = styles;
     return (
       <ScrollView style={mainContainer}>
         <View style={imageContainer}>
-        <TouchableOpacity onPress={this.changeImageClick} disabled={(!this.state.editable && isEmpty(profileIcon.uri))}>
+          <TouchableOpacity
+            onPress={this.changeImageClick}
+            disabled={!this.state.editable && isEmpty(profileIcon.uri)}>
             <ImageBackground source={profileIcon} style={imageWrapper}>
-              {(!this.state.editable && isEmpty(profileIcon.uri)) ?
-                 <Text style={[addImageIcon, {fontSize: normalize(30)}]}>&#xf007;</Text>
-                  :
-                  (this.state.editable || isEmpty(profileIcon.uri)) && <Text style={[addImageIcon, {}]}>&#xf083;</Text>}
+              {!this.state.editable && isEmpty(profileIcon.uri) ? (
+                <Text style={[addImageIcon, {fontSize: normalize(30)}]}>
+                  &#xf007;
+                </Text>
+              ) : (
+                (this.state.editable || isEmpty(profileIcon.uri)) && (
+                  <Text style={[addImageIcon, {}]}>&#xf083;</Text>
+                )
+              )}
             </ImageBackground>
-            </TouchableOpacity>
+          </TouchableOpacity>
         </View>
 
         {/* <View style={inputCard}>
@@ -224,7 +244,13 @@ class AddMember extends Component {
           value={this.state[NOTES.type]}
           editable={this.state.editable}
         />
-        {this.state.showImage && <ImageViewScreen navigation={this.props.navigation} profileIcon={profileIcon} onModalClose={this.onModalClose}/>}
+        {this.state.showImage && (
+          <ImageViewScreen
+            navigation={this.props.navigation}
+            profileIcon={profileIcon}
+            onModalClose={this.onModalClose}
+          />
+        )}
       </ScrollView>
     );
   }
@@ -244,8 +270,8 @@ const styles = {
     backgroundColor: '#0077be',
     borderRadius: normalize(40),
     overflow: 'hidden',
-    width:normalize(80),
-    height:normalize(80),
+    width: normalize(80),
+    height: normalize(80),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -258,12 +284,12 @@ const styles = {
     height: normalize(80),
     width: normalize(80),
     borderRadius: normalize(80),
-    borderColor: "rgba(51, 51, 51, 0.1)",
+    borderColor: 'rgba(51, 51, 51, 0.1)',
     borderWidth: 2,
     // marginLeft: normalize(17),
   },
-  fillerText:{
-    paddingVertical:normalize(7),
-    width:normalize(30),
-  }
+  fillerText: {
+    paddingVertical: normalize(7),
+    width: normalize(30),
+  },
 };

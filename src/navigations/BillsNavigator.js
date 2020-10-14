@@ -4,7 +4,7 @@ import Bills from './../components/Bills/Bills';
 import DrawerIconHeaderLeft from './../components/utils/DrawerIconHeaderLeft';
 import {normalize} from '../src/../components/utils/utils';
 
-export default BillsNavigator = createStackNavigator(
+const BillsNavigator = createStackNavigator(
   {
     AllBills: {
       screen: Bills,
@@ -19,3 +19,5 @@ export default BillsNavigator = createStackNavigator(
     }),
   },
 );
+
+export default BillsNavigator;

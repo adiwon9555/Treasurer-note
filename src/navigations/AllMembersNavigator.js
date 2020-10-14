@@ -3,7 +3,6 @@ import {View, Text} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import AllMembers from './../components/AllMembers/AllMembers';
 import AddMember from './../components/AllMembers/AddMember';
-import AddSearchOptionsHeaderRight from '../components/utils/AddSearchOptionsHeaderRight';
 import CameraScreen from '../components/utils/CameraScreen';
 // import CameraScreen from './../components/utils/CameraScreen';
 
@@ -17,7 +16,7 @@ import CameraScreen from '../components/utils/CameraScreen';
 //       header: null,
 //   })
 // }
-export default AllMembersNavigator = createStackNavigator(
+const AllMembersNavigator = createStackNavigator(
   {
     AllMembers: {
       screen: AllMembers,
@@ -37,3 +36,5 @@ export default AllMembersNavigator = createStackNavigator(
     }),
   },
 );
+
+export default AllMembersNavigator;

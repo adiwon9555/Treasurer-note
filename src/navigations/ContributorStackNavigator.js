@@ -4,7 +4,7 @@ import ContributorList from './../components/Contributor/ContributorList';
 import DrawerIconHeaderLeft from './../components/utils/DrawerIconHeaderLeft';
 import {normalize} from '../components/utils/utils';
 
-export default ContributorStackNavigator = createStackNavigator(
+const ContributorStackNavigator = createStackNavigator(
   {
     ContributorList: {
       screen: ContributorList,
@@ -19,3 +19,5 @@ export default ContributorStackNavigator = createStackNavigator(
     }),
   },
 );
+
+export default ContributorList;

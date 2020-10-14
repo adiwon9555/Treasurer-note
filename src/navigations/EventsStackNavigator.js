@@ -5,7 +5,7 @@ import AddSearchOptionsHeaderRight from './../components/utils/AddSearchOptionsH
 import {normalize} from './../components/utils/utils';
 import EventsTopNavigator from './EventsTopNavigator';
 
-export default EventsStackNavigator = createStackNavigator(
+const EventsStackNavigator = createStackNavigator(
   {
     AllEvents: {
       screen: EventsTopNavigator,
@@ -21,3 +21,5 @@ export default EventsStackNavigator = createStackNavigator(
     }),
   },
 );
+
+export default EventsStackNavigator;

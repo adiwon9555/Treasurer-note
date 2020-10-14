@@ -40,7 +40,7 @@
   "devDependencies": {
     "@babel/core": "7.6.4",
     "@babel/runtime": "7.6.3",
-    "@react-native-community/eslint-config": "0.0.3",
+    "@react-native-community/eslint-config": "0.0.5",
     "babel-eslint": "^10.1.0",
     "babel-jest": "24.9.0",
     "eslint": "^7.11.0",
@@ -69,7 +69,8 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "npx prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "git add"
     ]
   }
 }

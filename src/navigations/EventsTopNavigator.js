@@ -1,12 +1,14 @@
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import UpcomingEvents from './../components/Events/UpcomingEvents';
 import PassedEvents from './../components/Events/PassedEvents';
 
-export default EventsTopNavigator = createMaterialTopTabNavigator({
+const EventsTopNavigator = createMaterialTopTabNavigator({
   UpcomingEvents: {
-      screen: UpcomingEvents
+    screen: UpcomingEvents,
   },
   PassedEvents: {
-      screen: PassedEvents
-  }
-})
+    screen: PassedEvents,
+  },
+});
+
+export default EventsTopNavigator;

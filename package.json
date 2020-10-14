@@ -9,8 +9,8 @@
     "build-android": "cd android && ./gradlew assembleRelease && cd ..",
     "test": "jest",
     "lint": "eslint .",
-    "precommit": "lint-staged",
-    "prettier": "eslint . --fix"
+    "precommit": "lint-staged"
+    // "prettier": "eslint . --fix"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.3",

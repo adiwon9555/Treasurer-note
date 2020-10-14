@@ -33,6 +33,7 @@ class Cheese extends React.PureComponent {
       super(props);
       this.state = {
         cheese: {text:'cheese'},
+        
         // cheese : 'cons',
         temp: 1,
       };

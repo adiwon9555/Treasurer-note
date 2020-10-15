@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.3",
+    "@react-native-community/picker": "^1.8.1",
     "memoize-one": "^5.1.1",
     "react": "16.9.0",
     "react-devtools": "^3.6.3",

@@ -1,7 +1,9 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, TextInput, Picker} from 'react-native';
-import {normalize} from '../utils/utils';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {View, Text, TouchableOpacity, TextInput} from 'react-native';
+import {Picker} from '@react-native-community/picker';
+import {CodeForAndroid, normalize} from '../utils/utils';
 import fonts from '../../utils/fonts';
+import CustomPicker from '../utils/CustomPicker';
 
 export const CARD_INPUT_TYPE = {
   USERNAME: {
@@ -33,13 +35,57 @@ export const CARD_INPUT_TYPE = {
     keyboardType: 'default',
   },
 };
-export default InputCardAddMember = ({
+
+const EGF_LIST = [
+  {
+    item: 'HSR',
+    value: 'HSR',
+  },
+  {
+    item: 'Kormangala',
+    value: 'Kormangala',
+  },
+  {
+    item: 'BTM',
+    value: 'BTM',
+  },
+  {
+    item: 'Begur',
+    value: 'Begur',
+  },
+];
+
+const InputCardAddMember = ({
   type,
   placeholder,
   value,
   onChangeText,
   editable,
 }) => {
+  const [selectedPhoneCode, setCode] = useState('+91');
+  const [phone, setPhone] = useState('');
+  useMemo(() => {
+    if (type.type === CARD_INPUT_TYPE.PHONE.type) {
+      value ? setCode(value.substr(0, value.indexOf(' '))) : setCode('+91');
+      value && setPhone(value.substring(value.indexOf(' ') + 1));
+    }
+  }, [value, type]);
+
+  const onCodeSelect = useCallback((val) => {
+    setCode(val);
+  }, []);
+
+  const onChangeTextInternal = useCallback(
+    (val) => {
+      if (type.type === CARD_INPUT_TYPE.PHONE.type) {
+        val = selectedPhoneCode + ' ' + val;
+        onChangeText(val, type.type);
+      }
+      onChangeText(val, type.type);
+    },
+    [onChangeText, selectedPhoneCode, type],
+  );
+
   const {inputCard, inputIcon, textInputStyle} = styles;
 
   return (
@@ -48,18 +94,36 @@ export default InputCardAddMember = ({
       {type.type === CARD_INPUT_TYPE.EGF.type ? (
         <View style={textInputStyle}>
           {/* <Text>Select EGF</Text> */}
-          <Picker
+          <CustomPicker
             enabled={editable}
             selectedValue={value ? value : ''}
             mode={'dropdown'}
+            noItemLabel={'Select Egf'}
             prompt={type.type}
-            onValueChange={value => onChangeText(value, type.type)}>
-            <Picker.Item label="HSR" value="HSR" />
-            <Picker.Item label="Kormangala" value="Kormangala" />
-            <Picker.Item label="BTM" value="BTM" />
-            <Picker.Item label="Begur" value="Begur" />
-            {!value && <Picker.Item label="Select Egf" value="" />}
-          </Picker>
+            onValueChange={onChangeTextInternal}
+            itemStyle={styles.pickerItem}
+            list={EGF_LIST}
+            style={!editable && {color: 'gray'}}
+          />
+        </View>
+      ) : type.type === CARD_INPUT_TYPE.PHONE.type ? (
+        <View style={styles.phoneContainer}>
+          <CustomPicker
+            enabled={editable}
+            selectedValue={selectedPhoneCode}
+            list={CodeForAndroid}
+            style={[styles.customPickerStyle, !editable && {color: 'gray'}]}
+            onValueChange={onCodeSelect}
+            itemStyle={styles.pickerItem}
+          />
+          <TextInput
+            keyboardType={type.keyboardType}
+            style={styles.phoneInputStyle}
+            placeholder={editable ? placeholder : ''}
+            value={phone}
+            onChangeText={onChangeTextInternal}
+            editable={editable}
+          />
         </View>
       ) : (
         <TextInput
@@ -67,7 +131,7 @@ export default InputCardAddMember = ({
           style={textInputStyle}
           placeholder={editable ? placeholder : ''}
           value={value}
-          onChangeText={value => onChangeText(value, type.type)}
+          onChangeText={onChangeTextInternal}
           editable={editable}
         />
       )}
@@ -75,7 +139,7 @@ export default InputCardAddMember = ({
   );
 };
 
-const getIcon = type => {
+const getIcon = (type) => {
   const {inputIcon} = styles;
   switch (type) {
     case CARD_INPUT_TYPE.USERNAME.type:
@@ -112,4 +176,33 @@ const styles = {
     borderColor: 'gray',
     borderBottomWidth: normalize(1),
   },
+  phoneContainer: {
+    flex: 7,
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#4c5466',
+    borderBottomWidth: 1,
+    height: 48,
+    borderRadius: 4,
+    paddingHorizontal: 4,
+  },
+  customPickerStyle: {
+    color: '#000000',
+    width: 110,
+    // backgroundColor: '#f0f1f5',
+    height: 40,
+    fontSize: normalize(16),
+    // textAlign: 'center',
+    paddingLeft: 10,
+    justifyContent: 'flex-end',
+
+    alignItems: 'center',
+  },
+  phoneInputStyle: {
+    paddingLeft: 12,
+    fontSize: normalize(18),
+  },
 };
+
+export default InputCardAddMember;

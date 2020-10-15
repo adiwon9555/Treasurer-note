@@ -12,7 +12,7 @@ import fonts from '../../utils/fonts';
 import {normalize, isEmpty} from '../utils/utils';
 import Contacts from 'react-native-contacts';
 
-export default (MemberCard = props => {
+const MemberCard = (props) => {
   const {
     member,
     selected,
@@ -43,16 +43,21 @@ export default (MemberCard = props => {
   const DISABLED_COLOR = '#D3D3D3';
 
   const onCallPress = () => {
-    if (member.phone) Linking.openURL(`tel:${member.phone}`);
+    if (member.phone) {
+      Linking.openURL(`tel:${member.phone}`);
+    }
   };
 
   const onWatsAppPress = () => {
-    if (member.phone)
+    if (member.phone) {
       Linking.openURL(`https://api.whatsapp.com/send?phone=${member.phone}`);
+    }
   };
 
   const onMailPress = () => {
-    if (member.email) Linking.openURL(`mailto:${member.email}`);
+    if (member.email) {
+      Linking.openURL(`mailto:${member.email}`);
+    }
   };
 
   const onInfoClick = () => {
@@ -77,7 +82,7 @@ export default (MemberCard = props => {
       hasThumbnail: true,
       thumbnailPath: member && member.image ? member.image : '',
     };
-    Contacts.openContactForm(newPerson, err => {
+    Contacts.openContactForm(newPerson, (err) => {
       // if (err) console.warn(err);
       // form is open
     });
@@ -215,7 +220,7 @@ export default (MemberCard = props => {
       )}
     </View>
   );
-});
+};
 
 const styles = {
   entireCardView: {},
@@ -304,3 +309,5 @@ const styles = {
     marginLeft: normalize(17),
   },
 };
+
+export default MemberCard;

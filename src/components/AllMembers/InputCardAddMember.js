@@ -202,6 +202,7 @@ const styles = {
   phoneInputStyle: {
     paddingLeft: 12,
     fontSize: normalize(18),
+    flex: 1,
   },
 };
 

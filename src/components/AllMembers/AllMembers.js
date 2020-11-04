@@ -42,10 +42,14 @@ class AllMembers extends Component {
     });
     this.props.navigation.setParams({toggleSearch: this.toggleSearch});
     this.props.navigation.setParams({saveExcel: this.saveExcel});
+    this.props.navigation.setParams({openAddModal: this.openAddModal});
   }
   // componentWillUnmount(){
   //     this.didFocusSubscription.remove();
   // }
+  openAddModal = () => {
+    this.props.navigation.navigate('AddMember');
+  };
   static navigationOptions = ({navigationOptions, navigation}) => {
     return {
       title: 'BCSE - All Members',
@@ -55,9 +59,7 @@ class AllMembers extends Component {
       headerRight: (
         <AddSearchOptionsHeaderRight
           navigation={navigation}
-          openAddModal={() => {
-            navigation.navigate('AddMember');
-          }}
+          openAddModal={navigation.getParam('openAddModal', () => {})}
           saveExcel={navigation.getParam('saveExcel', () => {})}
           searchIcon={navigation.getParam('searchIcon', true)}
           toggleSearch={navigation.getParam('toggleSearch', () => {})}
@@ -67,8 +69,8 @@ class AllMembers extends Component {
   };
   saveExcel = () => {
     let c = 1;
-    const data = this.props.memberList.flatMap(egfLevel =>
-      egfLevel.data.map(item => ({
+    const data = this.props.memberList.flatMap((egfLevel) =>
+      egfLevel.data.map((item) => ({
         Serial_No: c++,
         Id: item.id,
         Name: item.userName,
@@ -98,7 +100,7 @@ class AllMembers extends Component {
     let marked = this.state.markedItems.includes(id);
     if (marked) {
       this.setState({
-        markedItems: this.state.markedItems.filter(mid => mid !== id),
+        markedItems: this.state.markedItems.filter((mid) => mid !== id),
         selected: null,
         selectedEgf: null,
       });
@@ -118,28 +120,28 @@ class AllMembers extends Component {
 
   markAll = () => {
     this.setState({
-      markedItems: this.props.memberList.flatMap(egfLevel =>
-        egfLevel.data.map(member => member.id),
+      markedItems: this.props.memberList.flatMap((egfLevel) =>
+        egfLevel.data.map((member) => member.id),
       ),
     });
   };
 
   markAllEgf = () => {
-    let egfs = this.props.memberList.flatMap(egfLevel =>
-      egfLevel.data.map(member => {
+    let egfs = this.props.memberList.flatMap((egfLevel) =>
+      egfLevel.data.map((member) => {
         return this.state.markedItems.includes(member.id) ? egfLevel.egf : '';
       }),
     );
     this.setState({
       markedItems: this.props.memberList
-        .filter(egfLevel => egfs.includes(egfLevel.egf))
-        .flatMap(egfLevel => egfLevel.data.map(member => member.id)),
+        .filter((egfLevel) => egfs.includes(egfLevel.egf))
+        .flatMap((egfLevel) => egfLevel.data.map((member) => member.id)),
     });
   };
 
   onMailPress = () => {
-    let emails = this.props.memberList.flatMap(egfLevel =>
-      egfLevel.data.map(member => {
+    let emails = this.props.memberList.flatMap((egfLevel) =>
+      egfLevel.data.map((member) => {
         return this.state.markedItems.includes(member.id) ? member.email : '';
       }),
     );
@@ -179,7 +181,7 @@ class AllMembers extends Component {
     }
   };
 
-  onSearch = value => {
+  onSearch = (value) => {
     this.setState({filterText: value});
   };
 
@@ -213,13 +215,13 @@ class AllMembers extends Component {
 
   filter = memoize((list, filterText) => {
     // list.filter(item => item.egf.toLowerCase().includes(filterText.toLowerCase()));
-    let temp = list.map(item => ({
+    let temp = list.map((item) => ({
       egf: item.egf,
-      data: item.data.filter(members =>
+      data: item.data.filter((members) =>
         members.userName.toLowerCase().includes(filterText.toLowerCase()),
       ),
     }));
-    return temp.filter(item => item.data.length > 0);
+    return temp.filter((item) => item.data.length > 0);
   });
 
   render() {
@@ -263,16 +265,15 @@ class AllMembers extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     memberList: state.MemberReducer.memberList,
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {getMemberList, removeMember},
-)(AllMembers);
+export default connect(mapStateToProps, {getMemberList, removeMember})(
+  AllMembers,
+);
 
 const styles = {
   memberListContainer: {

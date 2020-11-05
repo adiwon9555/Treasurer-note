@@ -4,6 +4,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import AllMembers from './../components/AllMembers/AllMembers';
 import AddMember from './../components/AllMembers/AddMember';
 import CameraScreen from '../components/utils/CameraScreen';
+import ImportContact from '../components/AllMembers/ImportContact';
 // import CameraScreen from './../components/utils/CameraScreen';
 
 // const CameraScreen = () => {
@@ -26,6 +27,9 @@ const AllMembersNavigator = createStackNavigator(
     },
     CameraScreen: {
       screen: CameraScreen,
+    },
+    ImportContact: {
+      screen: ImportContact,
     },
   },
   {

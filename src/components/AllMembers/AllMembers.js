@@ -40,9 +40,12 @@ class AllMembers extends Component {
       }
       return false;
     });
-    this.props.navigation.setParams({toggleSearch: this.toggleSearch});
-    this.props.navigation.setParams({saveExcel: this.saveExcel});
-    this.props.navigation.setParams({openAddModal: this.openAddModal});
+    this.props.navigation.setParams({
+      toggleSearch: this.toggleSearch,
+      saveExcel: this.saveExcel,
+      openAddModal: this.openAddModal,
+      openImportContact: this.openImportContact,
+    });
   }
   // componentWillUnmount(){
   //     this.didFocusSubscription.remove();
@@ -50,11 +53,15 @@ class AllMembers extends Component {
   openAddModal = () => {
     this.props.navigation.navigate('AddMember');
   };
+
+  openImportContact = () => {
+    this.props.navigation.navigate('ImportContact');
+  };
   static navigationOptions = ({navigationOptions, navigation}) => {
     return {
       title: 'BCSE - All Members',
       headerStyle: {height: normalize(55)},
-      headerTitleStyle: {fontSize: normalize(20), marginLeft: -normalize(3)},
+      headerTitleStyle: {fontSize: normalize(20)},
       headerLeft: <DrawerIconHeaderLeft navigation={navigation} />,
       headerRight: (
         <AddSearchOptionsHeaderRight
@@ -63,6 +70,8 @@ class AllMembers extends Component {
           saveExcel={navigation.getParam('saveExcel', () => {})}
           searchIcon={navigation.getParam('searchIcon', true)}
           toggleSearch={navigation.getParam('toggleSearch', () => {})}
+          openImportContact={navigation.getParam('openImportContact', () => {})}
+          showPopUpMenu={true}
         />
       ),
     };
@@ -145,7 +154,9 @@ class AllMembers extends Component {
         return this.state.markedItems.includes(member.id) ? member.email : '';
       }),
     );
-    if (emails.length > 0) Linking.openURL(`mailto:${emails.toString()}`);
+    if (emails.length > 0) {
+      Linking.openURL(`mailto:${emails.toString()}`);
+    }
   };
 
   renderItem = ({item, section}) => {

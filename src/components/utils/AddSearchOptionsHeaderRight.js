@@ -7,28 +7,38 @@ import {normalize} from './utils';
 const MORE_OPTIONS = ['Add new contact', 'Import Contacts', 'Export to Excel'];
 
 const AddSearchOptionsHeaderRight = React.memo(
-  ({navigation, openAddModal, toggleSearch, searchIcon, saveExcel}) => {
+  ({
+    navigation,
+    openAddModal,
+    toggleSearch,
+    searchIcon,
+    saveExcel,
+    openImportContact,
+    showPopUpMenu,
+  }) => {
     const {iconContainer, iconStyle} = styles;
     const _onPopupEvent = useCallback(
       (eventName, index) => {
         console.log('@aditya', eventName, index);
-        if (eventName !== 'itemSelected') return;
+        if (eventName !== 'itemSelected') {
+          return;
+        }
         switch (index) {
           case 0:
             openAddModal();
             break;
 
           case 1:
+            openImportContact();
             break;
           case 2:
             saveExcel();
             break;
-
           default:
             break;
         }
       },
-      [openAddModal, saveExcel],
+      [openAddModal, saveExcel, openImportContact],
     );
 
     return (
@@ -42,13 +52,15 @@ const AddSearchOptionsHeaderRight = React.memo(
         {/* <TouchableOpacity onPress={openAddModal} style={{}}>
         <Text style={iconStyle}>&#xf055;</Text>
       </TouchableOpacity> */}
-        <View>
-          <PopupMenu
-            iconStyle={styles.iconStyle}
-            actions={MORE_OPTIONS}
-            onPress={_onPopupEvent}
-          />
-        </View>
+        {showPopUpMenu && (
+          <View>
+            <PopupMenu
+              iconStyle={styles.iconStyle}
+              actions={MORE_OPTIONS}
+              onPress={_onPopupEvent}
+            />
+          </View>
+        )}
       </View>
     );
   },

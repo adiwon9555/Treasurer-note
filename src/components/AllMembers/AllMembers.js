@@ -160,7 +160,7 @@ class AllMembers extends Component {
   };
 
   renderItem = ({item, section}) => {
-    let selected = this.state.selected == item.id ? true : false;
+    let selected = this.state.selected === item.id ? true : false;
     item.egf = item.egf || section.egf;
     return (
       <MemberCard

@@ -80,7 +80,9 @@ class AddMember extends Component {
       'member',
       null,
     ));
+
     if (member != null) {
+      const fromContact = this.props.navigation.getParam('fromContact', false);
       this.oldegf = member.egf;
       this.setState({
         [USERNAME.type]: member.userName,
@@ -89,7 +91,7 @@ class AddMember extends Component {
         [EMAIL.type]: member.email,
         [NOTES.type]: member.notes,
         [IMAGE.type]: member.image,
-        editable: false,
+        editable: fromContact || false,
       });
     }
   }
@@ -125,7 +127,11 @@ class AddMember extends Component {
     const member = {
       egf,
       data: {
-        id: this.editMember ? this.editMember.id : this.uuidv4(),
+        id:
+          this.editMember &&
+          !this.props.navigation.getParam('fromContact', false)
+            ? this.editMember.id
+            : this.uuidv4(),
         userName,
         image,
         phone,
@@ -134,12 +140,17 @@ class AddMember extends Component {
         egf,
       },
     };
-    if (this.editMember != null) {
+    if (
+      this.editMember != null &&
+      !this.props.navigation.getParam('fromContact', false)
+    ) {
       this.props.editMember({member, oldegf: this.oldegf});
     } else {
       this.props.addMember(member);
     }
-    this.props.navigation.goBack();
+    this.props.navigation.getParam('fromContact', false)
+      ? this.props.navigation.navigate('AllMembers')
+      : this.props.navigation.goBack();
   };
   uuidv4 = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (

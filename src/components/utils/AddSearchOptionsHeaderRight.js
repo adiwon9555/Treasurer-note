@@ -4,7 +4,12 @@ import fonts from '../../utils/fonts';
 import PopupMenu from './PopupMenu';
 import {normalize} from './utils';
 
-const MORE_OPTIONS = ['Add new contact', 'Import Contacts', 'Export to Excel'];
+const MORE_OPTIONS = [
+  'Add new contact',
+  'Import Contacts',
+  'Export to Excel',
+  'Restore from Excel',
+];
 
 const AddSearchOptionsHeaderRight = React.memo(
   ({

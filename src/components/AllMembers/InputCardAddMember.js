@@ -66,8 +66,12 @@ const InputCardAddMember = ({
   const [phone, setPhone] = useState('');
   useMemo(() => {
     if (type.type === CARD_INPUT_TYPE.PHONE.type) {
-      value ? setCode(value.substr(0, value.indexOf(' '))) : setCode('+91');
-      value && setPhone(value.substring(value.indexOf(' ') + 1));
+      value && value.charAt(0) === '+'
+        ? setCode(value.substr(0, value.indexOf(' ')))
+        : setCode('+91');
+      value && value.charAt(0) === '+'
+        ? setPhone(value.substring(value.indexOf(' ') + 1))
+        : setPhone(value);
     }
   }, [value, type]);
 

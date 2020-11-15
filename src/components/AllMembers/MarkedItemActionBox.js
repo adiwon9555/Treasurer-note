@@ -104,9 +104,9 @@ const MarkedItemActionBox = (props) => {
       {addMembers && (
         <TouchableOpacity style={actionButtonContainer} onPress={addMembers}>
           <Text style={[{fontFamily: fonts.solidIcons}, actionButtonIcon]}>
-            &#xf00d;
+            &#xf234;
           </Text>
-          <Text style={actionButtonLabel}>Add</Text>
+          <Text style={actionButtonLabel}>Add Marked</Text>
         </TouchableOpacity>
       )}
     </View>

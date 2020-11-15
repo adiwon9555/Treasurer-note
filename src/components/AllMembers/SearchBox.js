@@ -3,12 +3,7 @@ import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import {normalize} from '../utils/utils';
 import fonts from '../../utils/fonts';
 
-export default (SearchBox = ({
-  placeholder,
-  value,
-  onChangeText,
-  closeSearch,
-}) => {
+const SearchBox = ({placeholder, value, onChangeText, closeSearch}) => {
   const {inputCard, inputIcon, textInputStyle, iconContainer} = styles;
 
   return (
@@ -17,16 +12,16 @@ export default (SearchBox = ({
       <TextInput
         style={textInputStyle}
         placeholder={placeholder}
-        value={value}
+        // value={value}
         autoFocus
-        onChangeText={value => onChangeText(value)}
+        onChangeText={(value) => onChangeText(value)}
       />
       <TouchableOpacity onPress={closeSearch} style={iconContainer}>
         <Text style={inputIcon}>&#xf00d;</Text>
       </TouchableOpacity>
     </View>
   );
-});
+};
 
 const styles = {
   inputCard: {
@@ -53,3 +48,5 @@ const styles = {
     fontSize: normalize(18),
   },
 };
+
+export default SearchBox;

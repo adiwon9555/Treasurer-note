@@ -1,16 +1,17 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {RefreshControl} from 'react-native';
 import {Text, ToastAndroid, View} from 'react-native';
 import Contacts from 'react-native-contacts';
 import {FlatList} from 'react-native-gesture-handler';
 import AddSearchOptionsHeaderRight from '../utils/AddSearchOptionsHeaderRight';
 import GoBackIconHeaderLeft, {ICONSTYLE} from '../utils/GoBackIconHeaderLeft';
-import {normalize} from '../utils/utils';
+import {debounce, normalize} from '../utils/utils';
 import ContactCard from './ContactCard';
 import MarkedItemActionBox from './MarkedItemActionBox';
 import SearchBox from './SearchBox';
 import {Platform} from 'react-native';
 import {PermissionsAndroid} from 'react-native';
+import {BackHandler} from 'react-native';
 
 const ImportContact = ({navigation}) => {
   const [contacts, setContacts] = useState([]);
@@ -18,6 +19,8 @@ const ImportContact = ({navigation}) => {
   const [refresh, startRefresh] = useState(false);
   const [markedItems, setMarkedItems] = useState([]);
   const [showSearchBox, setShowSearchBox] = useState(false);
+  const [filterText, setFilterText] = useState('');
+  const [searchValue, setSearchValue] = useState('');
 
   const onRefresh = () => {
     startRefresh(() => !refresh);
@@ -57,6 +60,30 @@ const ImportContact = ({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [markedItems],
   );
+  useEffect(() => {
+    navigation.setParams({
+      toggleSearch,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    const handleBackpress = () => {
+      if (showSearchBox || markedItems.length > 0) {
+        if (showSearchBox) {
+          closeSearch();
+        }
+        if (markedItems.length > 0) {
+          cancelSelection();
+        }
+        return true;
+      }
+      return false;
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackpress);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackpress);
+    };
+  }, [showSearchBox, closeSearch, cancelSelection, markedItems]);
   useEffect(() => {
     const getContacts = () => {
       Contacts.getAll((err, _contacts) => {
@@ -147,6 +174,17 @@ const ImportContact = ({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
 
+  // const filter = memoizeOne((list, searchText) =>
+  //   list.filter((item) =>
+  //     item.displayName.toLowerCase().includes(searchText.toLowerCase()),
+  //   ),
+  // );
+  const filter = useCallback(() => {
+    return contacts.filter((item) =>
+      item.displayName.toLowerCase().includes(filterText.toLowerCase()),
+    );
+  }, [contacts, filterText]);
+
   const cancelSelection = useCallback(() => {
     setMarkedItems([]);
   }, []);
@@ -154,29 +192,46 @@ const ImportContact = ({navigation}) => {
     setMarkedItems(contacts.map((contact) => contact.recordID));
   }, [contacts]);
   const addMembers = useCallback(() => {}, []);
-  const toggleSearch = () => {
-    setShowSearchBox((prevState) => !prevState);
-    this.setState(
-      {
-        showSearchBox: !this.state.showSearchBox,
-        filterText: '',
-      },
-      () => {
-        this.props.navigation.setParams({
-          searchIcon: !this.state.showSearchBox,
-        });
-      },
-    );
-  };
+  const toggleSearch = useCallback(() => {
+    setShowSearchBox((prevState) => {
+      navigation.setParams({
+        searchIcon: !prevState,
+      });
+      return !prevState;
+    });
+    setFilterText('');
+  }, [navigation]);
 
+  // const onSearch = useCallback((value) => {
+  //   // setSearchValue(value);
+  //   return debounce(setFilterText, 1000);
+  // }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onSearch = useCallback(debounce(setFilterText, 50), []);
+
+  const closeSearch = useCallback(() => {
+    setShowSearchBox(false);
+    navigation.setParams({
+      searchIcon: true,
+    });
+    setFilterText('');
+  }, [navigation]);
+  const filteredList = filter();
+  // useMemo(() => {
+  //   setContacts((contacts) =>
+  //     contacts.filter((item) =>
+  //       item.displayName.toLowerCase().includes(filterText.toLowerCase()),
+  //     ),
+  //   );
+  // }, [filterText]);
   return (
     <View>
       {showSearchBox && (
         <SearchBox
           placeholder="Search Member"
-          onChangeText={this.onSearch}
-          value={this.state.filterText}
-          closeSearch={this.closeSearch}
+          onChangeText={onSearch}
+          value={searchValue}
+          closeSearch={closeSearch}
         />
       )}
       {markedItems.length > 0 && (
@@ -187,7 +242,7 @@ const ImportContact = ({navigation}) => {
         />
       )}
       <FlatList
-        data={contacts}
+        data={filteredList}
         keyExtractor={(item) => `${item.recordID}`}
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={onRefresh} />

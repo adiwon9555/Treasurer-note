@@ -180,9 +180,17 @@ const ImportContact = ({navigation}) => {
   //   ),
   // );
   const filter = useCallback(() => {
-    return contacts.filter((item) =>
-      item.displayName.toLowerCase().includes(filterText.toLowerCase()),
-    );
+    return contacts
+      .filter((item) =>
+        item.displayName.toLowerCase().includes(filterText.toLowerCase()),
+      )
+      .sort((a, b) =>
+        a.displayName > b.displayName
+          ? 1
+          : b.displayName > a.displayName
+          ? -1
+          : 0,
+      );
   }, [contacts, filterText]);
 
   const cancelSelection = useCallback(() => {
@@ -207,7 +215,7 @@ const ImportContact = ({navigation}) => {
   //   return debounce(setFilterText, 1000);
   // }, []);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onSearch = useCallback(debounce(setFilterText, 50), []);
+  const onSearch = useCallback(debounce(setFilterText, 10), []);
 
   const closeSearch = useCallback(() => {
     setShowSearchBox(false);

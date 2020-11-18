@@ -10,7 +10,7 @@ const initialState = {
           id: 1,
           userName: 'Aditya Rathi',
           image:
-            'http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
+            'https://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/profile_user.jpg',
         },
         {
           id: 2,

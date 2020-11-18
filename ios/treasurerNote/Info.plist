@@ -59,5 +59,9 @@
 		<string>fa-regular-400.ttf</string>
 		<string>fa-solid-900.ttf</string>
 	</array>
+	<key>NSContactsUsageDescription</key>
+	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string></string>
 </dict>
 </plist>

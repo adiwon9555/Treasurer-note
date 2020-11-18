@@ -92,9 +92,26 @@ const ImportContact = ({navigation}) => {
           alert('Error Retrieving contacts');
         } else {
           console.log('@aditya contacts', _contacts);
-          const sortedContacts = _contacts.sort(
-            (a, b) => a.displayName - b.displayName,
+          if (Platform.OS === 'ios') {
+            _contacts = _contacts.map((contact) => ({
+              ...contact,
+              displayName:
+                contact.givenName +
+                ' ' +
+                contact.middleName +
+                ' ' +
+                contact.familyName,
+            }));
+          }
+
+          const sortedContacts = _contacts.sort((a, b) =>
+            a.displayName > b.displayName
+              ? 1
+              : b.displayName > a.displayName
+              ? -1
+              : 0,
           );
+          console.log('@aditya contacts', sortedContacts);
           setContacts([...sortedContacts]);
           setLoading(false);
         }
@@ -161,12 +178,49 @@ const ImportContact = ({navigation}) => {
         }
       });
     } else {
+      // Contacts.checkPermission((err, permission) => {
+      // if (err) {
+      //   console.log('Error Retrieving contacts', err);
+      //   alert('Error Retrieving contacts');
+      // } else {
+      //     checkPermission(permission, true);
+      //   }
+      // });
       Contacts.checkPermission((err, permission) => {
+        // Contacts.PERMISSION_AUTHORIZED || Contacts.PERMISSION_UNDEFINED || Contacts.PERMISSION_DENIED
         if (err) {
           console.log('Error Retrieving contacts', err);
           alert('Error Retrieving contacts');
-        } else {
-          checkPermission(permission, true);
+        }
+        if (permission === 'undefined') {
+          Contacts.requestPermission((err, permission) => {
+            if (err) {
+              console.log('Error Retrieving contacts', err);
+              alert('Error Retrieving contacts');
+            }
+            if (permission === 'authorized') {
+              console.log('@aditya authorized', permission);
+              getContacts();
+            }
+            if (permission === 'denied') {
+              console.log('@aditya denied else');
+              alert(
+                'Please allow Permission for Treasurer app in Settings Page to view Contacts',
+              );
+              navigation.goBack();
+            }
+          });
+        }
+        if (permission === 'authorized') {
+          console.log('@aditya authorized', permission);
+          getContacts();
+        }
+        if (permission === 'denied') {
+          console.log('@aditya denied else');
+          alert(
+            'Please allow Permission for Treasurer app in Settings Page to view Contacts',
+          );
+          navigation.goBack();
         }
       });
     }
@@ -180,17 +234,9 @@ const ImportContact = ({navigation}) => {
   //   ),
   // );
   const filter = useCallback(() => {
-    return contacts
-      .filter((item) =>
-        item.displayName.toLowerCase().includes(filterText.toLowerCase()),
-      )
-      .sort((a, b) =>
-        a.displayName > b.displayName
-          ? 1
-          : b.displayName > a.displayName
-          ? -1
-          : 0,
-      );
+    return contacts.filter((item) =>
+      item.displayName.toLowerCase().includes(filterText.toLowerCase()),
+    );
   }, [contacts, filterText]);
 
   const cancelSelection = useCallback(() => {

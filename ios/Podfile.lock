@@ -242,8 +242,8 @@ PODS:
     - QBImagePickerController
     - React-Core
     - RSKImageCropper
-  - RNReanimated (1.13.1):
-    - React
+  - RNReanimated (1.13.2):
+    - React-Core
   - RNScreens (1.0.0-alpha.23):
     - React
   - RSKImageCropper (3.0.0)
@@ -284,7 +284,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNImageCropPicker (from `../../react-native-image-crop-picker`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -359,7 +359,7 @@ EXTERNAL SOURCES:
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
-    :path: "../../react-native-image-crop-picker"
+    :path: "../node_modules/react-native-image-crop-picker"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -402,11 +402,11 @@ SPEC CHECKSUMS:
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNImageCropPicker: 7f1e19bedc36f22cdcb44cbc082be451305162a2
-  RNReanimated: dd8c286ab5dd4ba36d3a7fef8bff7e08711b5476
+  RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RSKImageCropper: 81f449b4df96bdaf28e1ad6dcce28dcda2235458
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 36e89fc5865525b655854b7810b66fb5e6f3a858
+PODFILE CHECKSUM: ea67acad291e3ac250c7dbb54c587ac26fa71a3f
 
 COCOAPODS: 1.9.3

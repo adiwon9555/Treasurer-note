@@ -114,6 +114,7 @@ const InputCardAddMember = ({
         <View style={styles.phoneContainer}>
           <CustomPicker
             enabled={editable}
+            mode={'dropdown'}
             selectedValue={selectedPhoneCode}
             list={CodeForAndroid}
             style={[styles.customPickerStyle, !editable && {color: 'gray'}]}

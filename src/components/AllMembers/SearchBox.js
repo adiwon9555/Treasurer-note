@@ -27,11 +27,14 @@ const styles = {
   inputCard: {
     marginTop: normalize(5, 1),
     paddingLeft: normalize(10, 1),
+    paddingTop: normalize(3, 2),
+    paddingBottom: normalize(4, 2),
     marginBottom: normalize(3, 0.1),
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     borderColor: 'red',
+    paddingBotton: normalize(20),
     borderBottomWidth: normalize(1),
   },
   inputIcon: {
@@ -45,7 +48,7 @@ const styles = {
   },
   textInputStyle: {
     flex: 7,
-    fontSize: normalize(18),
+    fontSize: normalize(20),
   },
 };
 

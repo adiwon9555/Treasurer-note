@@ -201,7 +201,7 @@ const ImportContact = ({navigation}) => {
   const toggleSearch = useCallback(() => {
     setShowSearchBox((prevState) => {
       navigation.setParams({
-        searchIcon: !prevState,
+        searchIcon: prevState,
       });
       return !prevState;
     });

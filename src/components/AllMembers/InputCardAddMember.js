@@ -112,7 +112,7 @@ const InputCardAddMember = ({
         </View>
       ) : type.type === CARD_INPUT_TYPE.PHONE.type ? (
         <View style={styles.phoneContainer}>
-          <CustomPicker
+          {/* <CustomPicker
             enabled={editable}
             mode={'dropdown'}
             selectedValue={selectedPhoneCode}
@@ -120,6 +120,14 @@ const InputCardAddMember = ({
             style={[styles.customPickerStyle, !editable && {color: 'gray'}]}
             onValueChange={onCodeSelect}
             itemStyle={styles.pickerItem}
+          /> */}
+          <TextInput
+            keyboardType={type.keyboardType}
+            style={styles.customPickerStyle}
+            placeholder={editable ? placeholder : ''}
+            value={selectedPhoneCode}
+            onChangeText={onChangeTextInternal}
+            editable={editable}
           />
           <TextInput
             keyboardType={type.keyboardType}
@@ -179,6 +187,7 @@ const styles = {
     flex: 7,
     fontSize: normalize(18),
     borderColor: 'gray',
+    paddingBottom: normalize(10),
     borderBottomWidth: normalize(1),
   },
   phoneContainer: {

@@ -72,7 +72,11 @@ const AddSearchOptionsHeaderRight = React.memo(
         <Text style={iconStyle}>&#xf382;</Text>
       </TouchableOpacity> */}
         <TouchableOpacity onPress={toggleSearch} style={{}}>
-          {searchIcon && <Text style={iconStyle}>&#xf002;</Text>}
+          {searchIcon ? (
+            <Text style={iconStyle}>&#xf002;</Text>
+          ) : (
+            <Text style={iconStyle}> </Text>
+          )}
         </TouchableOpacity>
         {/* <TouchableOpacity onPress={openAddModal} style={{}}>
         <Text style={iconStyle}>&#xf055;</Text>

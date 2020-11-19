@@ -79,6 +79,7 @@ const MemberCard = (props) => {
         },
       ],
       displayName: member && member.userName ? member.userName : '',
+      givenName: member && member.userName ? member.userName : '',
       hasThumbnail: true,
       thumbnailPath: member && member.image ? member.image : '',
     };

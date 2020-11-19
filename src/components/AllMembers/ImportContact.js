@@ -117,46 +117,6 @@ const ImportContact = ({navigation}) => {
         }
       });
     };
-    const checkPermission = (permission, init) => {
-      console.log('@aditya  init', permission);
-      if (permission === 'undefined') {
-        Contacts.requestPermission((err, permission) => {
-          if (err === 'denied') {
-            console.log('Error Retrieving contacts', err);
-            alert('Error Retrieving contacts');
-          } else {
-            console.log('@aditya ');
-            checkPermission(permission);
-          }
-        });
-      }
-      if (permission === 'authorized') {
-        console.log('@aditya authorized', permission);
-        getContacts();
-      }
-      if (permission === 'denied') {
-        console.log('@aditya denied');
-        if (init) {
-          console.log('@aditya denied init', permission);
-          Contacts.requestPermission((err, permission) => {
-            if (err === 'denied') {
-              console.log('Error Retrieving contacts', err);
-              alert('Error Retrieving contacts');
-            } else {
-              console.log('@aditya denied init1');
-              checkPermission(permission);
-            }
-          });
-        } else {
-          console.log('@aditya denied else');
-          ToastAndroid.show(
-            'Please allow Permission to view Contacts',
-            ToastAndroid.SHORT,
-          );
-          navigation.goBack();
-        }
-      }
-    };
 
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(
@@ -178,14 +138,6 @@ const ImportContact = ({navigation}) => {
         }
       });
     } else {
-      // Contacts.checkPermission((err, permission) => {
-      // if (err) {
-      //   console.log('Error Retrieving contacts', err);
-      //   alert('Error Retrieving contacts');
-      // } else {
-      //     checkPermission(permission, true);
-      //   }
-      // });
       Contacts.checkPermission((err, permission) => {
         // Contacts.PERMISSION_AUTHORIZED || Contacts.PERMISSION_UNDEFINED || Contacts.PERMISSION_DENIED
         if (err) {

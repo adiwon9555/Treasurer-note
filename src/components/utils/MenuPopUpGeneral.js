@@ -1,7 +1,9 @@
 import React from 'react';
 
 import {View, Text, StyleSheet} from 'react-native';
-import Menu, {MenuItem, MenuDivider} from 'react-native-material-menu';
+import {ScrollView} from 'react-native-gesture-handler';
+import Menu, {MenuItem} from 'react-native-material-menu';
+import {POP_SOURCE} from './utils';
 
 class MenuPopUpGeneral extends React.PureComponent {
   _menu = null;
@@ -16,28 +18,42 @@ class MenuPopUpGeneral extends React.PureComponent {
   };
 
   showMenu = () => {
+    console.log('@aditya showMenu');
     this._menu.show();
+  };
+
+  renderMenuItems = (source) => {
+    switch (source) {
+      case POP_SOURCE.MORE_MENU_HEADER:
+        return this.props.actions.map((item, index) => (
+          <MenuItem
+            onPress={() => {
+              this.onItemPress(index);
+            }}
+            key={index}>
+            {item}
+          </MenuItem>
+        ));
+      case POP_SOURCE.PHONE_CODE:
+        return this.props.actions.map((item, index) => (
+          <MenuItem
+            onPress={() => {
+              this.onItemPress(item.value);
+            }}
+            key={index}>
+            {item.value}
+          </MenuItem>
+        ));
+    }
   };
 
   render() {
     return (
       <View style={styles.viewContainer}>
-        <Menu
-          ref={this.setMenuRef}
-          button={
-            <Text onPress={this.showMenu} style={this.props.iconStyle}>
-              &#xf142;
-            </Text>
-          }>
-          {this.props.actions.map((item, index) => (
-            <MenuItem
-              onPress={() => {
-                this.onItemPress(index);
-              }}
-              key={index}>
-              {item}
-            </MenuItem>
-          ))}
+        <Menu ref={this.setMenuRef} button={this.props.render(this.showMenu)}>
+          <ScrollView style={styles.scrollViewStyle}>
+            {this.renderMenuItems(this.props.source)}
+          </ScrollView>
           {/* <MenuItem onPress={this.hideMenu}>Menu item 1</MenuItem>
           <MenuItem onPress={this.hideMenu}>Menu item 2</MenuItem>
           <MenuItem onPress={this.hideMenu} disabled>
@@ -53,6 +69,7 @@ class MenuPopUpGeneral extends React.PureComponent {
 
 const styles = StyleSheet.create({
   viewContainer: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  scrollViewStyle: {maxHeight: 250},
 });
 
 export default MenuPopUpGeneral;

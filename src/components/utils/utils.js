@@ -233,3 +233,8 @@ export const debounce = (func, delay) => {
     debounceTimer = setTimeout(() => func.apply(context, args), delay);
   };
 };
+
+export const POP_SOURCE = {
+  MORE_MENU_HEADER: 'MORE_MENU_HEADER',
+  PHONE_CODE: 'PHONE_CODE',
+};

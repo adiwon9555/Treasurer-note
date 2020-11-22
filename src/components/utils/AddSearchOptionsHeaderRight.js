@@ -3,7 +3,7 @@ import {TouchableOpacity, Text, View} from 'react-native';
 import fonts from '../../utils/fonts';
 import MenuPopUpGeneral from './MenuPopUpGeneral';
 import PopupMenu from './PopupMenu';
-import {normalize} from './utils';
+import {normalize, POP_SOURCE} from './utils';
 
 const MORE_OPTIONS = [
   'Add new contact',
@@ -11,6 +11,12 @@ const MORE_OPTIONS = [
   'Export to Excel',
   'Restore from Excel',
 ];
+
+const menuButtonRender = (showMenu) => (
+  <Text onPress={showMenu} style={styles.iconStyle}>
+    &#xf142;
+  </Text>
+);
 
 const AddSearchOptionsHeaderRight = React.memo(
   ({
@@ -92,6 +98,8 @@ const AddSearchOptionsHeaderRight = React.memo(
               iconStyle={styles.iconStyle}
               actions={MORE_OPTIONS}
               onPress={_onPopupEvent}
+              render={menuButtonRender}
+              source={POP_SOURCE.MORE_MENU_HEADER}
             />
           </View>
         )}

@@ -1,9 +1,16 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  TouchableOpacityBase,
+} from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {CodeForAndroid, normalize} from '../utils/utils';
+import {CodeForAndroid, normalize, POP_SOURCE} from '../utils/utils';
 import fonts from '../../utils/fonts';
 import CustomPicker from '../utils/CustomPicker';
+import MenuPopUpGeneral from '../utils/MenuPopUpGeneral';
 
 export const CARD_INPUT_TYPE = {
   USERNAME: {
@@ -92,6 +99,21 @@ const InputCardAddMember = ({
 
   const {inputCard, inputIcon, textInputStyle} = styles;
 
+  const menuButtonRender = useCallback(
+    (showMenu) => (
+      <Text
+        onPress={editable ? showMenu : () => {}}
+        style={
+          editable
+            ? styles.phoneCodeTextStyle
+            : [styles.phoneCodeTextStyle, styles.nonEditableText]
+        }>
+        {selectedPhoneCode + '   - '}
+      </Text>
+    ),
+    [selectedPhoneCode, editable],
+  );
+
   return (
     <View style={inputCard}>
       {getIcon(type.type)}
@@ -121,17 +143,19 @@ const InputCardAddMember = ({
             onValueChange={onCodeSelect}
             itemStyle={styles.pickerItem}
           /> */}
-          <TextInput
-            keyboardType={type.keyboardType}
-            style={styles.customPickerStyle}
-            placeholder={editable ? placeholder : ''}
-            value={selectedPhoneCode}
-            onChangeText={onChangeTextInternal}
-            editable={editable}
+          <MenuPopUpGeneral
+            actions={CodeForAndroid}
+            onPress={onCodeSelect}
+            render={menuButtonRender}
+            source={POP_SOURCE.PHONE_CODE}
           />
           <TextInput
             keyboardType={type.keyboardType}
-            style={styles.phoneInputStyle}
+            style={
+              editable
+                ? styles.phoneInputStyle
+                : [styles.phoneInputStyle, styles.nonEditableText]
+            }
             placeholder={editable ? placeholder : ''}
             value={phone}
             onChangeText={onChangeTextInternal}
@@ -141,7 +165,9 @@ const InputCardAddMember = ({
       ) : (
         <TextInput
           keyboardType={type.keyboardType}
-          style={textInputStyle}
+          style={
+            editable ? textInputStyle : [textInputStyle, styles.nonEditableText]
+          }
           placeholder={editable ? placeholder : ''}
           value={value}
           onChangeText={onChangeTextInternal}
@@ -190,6 +216,9 @@ const styles = {
     paddingBottom: normalize(10),
     borderBottomWidth: normalize(1),
   },
+  nonEditableText: {
+    color: 'gray',
+  },
   phoneContainer: {
     flex: 7,
     justifyContent: 'flex-start',
@@ -200,6 +229,12 @@ const styles = {
     height: 48,
     borderRadius: 4,
     paddingHorizontal: 4,
+  },
+  phoneCodeTextStyle: {
+    color: '#000000',
+    fontSize: normalize(16),
+
+    alignItems: 'center',
   },
   customPickerStyle: {
     color: '#000000',
@@ -216,7 +251,7 @@ const styles = {
   phoneInputStyle: {
     paddingLeft: 12,
     fontSize: normalize(18),
-    flex: 1,
+    flex: 3,
   },
 };
 

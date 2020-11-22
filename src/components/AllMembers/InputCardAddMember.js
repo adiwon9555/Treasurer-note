@@ -78,13 +78,18 @@ const InputCardAddMember = ({
         : setCode('+91');
       value && value.charAt(0) === '+'
         ? setPhone(value.substring(value.indexOf(' ') + 1))
-        : setPhone(value);
+        : setPhone(value || '');
     }
   }, [value, type]);
 
-  const onCodeSelect = useCallback((val) => {
-    setCode(val);
-  }, []);
+  const onCodeSelect = useCallback(
+    (val) => {
+      setCode(val);
+      const tempValue = val + ' ' + phone;
+      onChangeText(tempValue, type.type);
+    },
+    [onChangeText, type, phone],
+  );
 
   const onChangeTextInternal = useCallback(
     (val) => {

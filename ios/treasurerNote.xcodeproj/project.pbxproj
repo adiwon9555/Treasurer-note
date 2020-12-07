@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* treasurerNoteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* treasurerNoteTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* treasurerNoteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* treasurerNoteTests.m */; };
+		46096299257E13C600AA1F65 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46096298257E13C600AA1F65 /* LaunchScreen.storyboard */; };
+		4609629A257E13C600AA1F65 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46096298257E13C600AA1F65 /* LaunchScreen.storyboard */; };
 		46FB229525642D8E00034059 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46FB229225642D8E00034059 /* fa-solid-900.ttf */; };
 		46FB229625642D8E00034059 /* fa-brands-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46FB229325642D8E00034059 /* fa-brands-400.ttf */; };
 		46FB229725642D8E00034059 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46FB229425642D8E00034059 /* fa-regular-400.ttf */; };
@@ -51,7 +52,6 @@
 		13B07F961A680F5B00A75B9A /* treasurerNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = treasurerNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = treasurerNote/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = treasurerNote/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = treasurerNote/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = treasurerNote/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = treasurerNote/main.m; sourceTree = "<group>"; };
@@ -59,6 +59,7 @@
 		2D02E4901E0B4A5D006451C7 /* treasurerNote-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "treasurerNote-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41BA34FC6D5427AABF46037D /* Pods-treasurerNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-treasurerNote.release.xcconfig"; path = "Target Support Files/Pods-treasurerNote/Pods-treasurerNote.release.xcconfig"; sourceTree = "<group>"; };
 		42B9758A81FC85506B0AFA1E /* Pods-treasurerNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-treasurerNote.debug.xcconfig"; path = "Target Support Files/Pods-treasurerNote/Pods-treasurerNote.debug.xcconfig"; sourceTree = "<group>"; };
+		46096298257E13C600AA1F65 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		46FB229225642D8E00034059 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
 		46FB229325642D8E00034059 /* fa-brands-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-brands-400.ttf"; sourceTree = "<group>"; };
 		46FB229425642D8E00034059 /* fa-regular-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-regular-400.ttf"; sourceTree = "<group>"; };
@@ -138,8 +139,8 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				46096298257E13C600AA1F65 /* LaunchScreen.storyboard */,
 			);
 			name = treasurerNote;
 			sourceTree = "<group>";
@@ -366,8 +367,8 @@
 				46FB229625642D8E00034059 /* fa-brands-400.ttf in Resources */,
 				46FB229725642D8E00034059 /* fa-regular-400.ttf in Resources */,
 				46FB229525642D8E00034059 /* fa-solid-900.ttf in Resources */,
+				46096299257E13C600AA1F65 /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				4609629A257E13C600AA1F65 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,18 +640,6 @@
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = treasurerNote;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {

@@ -13,7 +13,10 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
   return (
-    <Tab.Navigator initialRouteName="Members" tabBarOptions={tabBarOptions}>
+    <Tab.Navigator
+      initialRouteName="Members"
+      tabBarOptions={tabBarOptions}
+      backBehavior={'initialRoute'}>
       <Tab.Screen
         name="AllMembersNavigator"
         component={AllMembersNavigator}

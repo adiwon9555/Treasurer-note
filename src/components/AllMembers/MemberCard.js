@@ -110,7 +110,9 @@ const MemberCard = (props) => {
         onLongPress={() => markItem(member.id, member.egf)}>
         <View style={cardContainer}>
           <View style={userIconContainer}>
-            <ImageBackground style={userImage} source={profileIcon}>
+            <ImageBackground
+              style={userImage}
+              source={profileIcon.uri ? profileIcon : null}>
               {isEmpty(profileIcon.uri) && (
                 <Text style={[userIcon, {}]}>&#xf007;</Text>
               )}

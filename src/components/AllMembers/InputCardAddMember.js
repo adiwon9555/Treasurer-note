@@ -134,7 +134,7 @@ const InputCardAddMember = ({
             onValueChange={onChangeTextInternal}
             itemStyle={styles.pickerItem}
             list={EGF_LIST}
-            style={!editable && {color: 'gray'}}
+            style={!editable ? styles.nonEditableText : styles.editableText}
           />
         </View>
       ) : type.type === CARD_INPUT_TYPE.PHONE.type ? (
@@ -220,9 +220,13 @@ const styles = {
     borderColor: 'gray',
     paddingBottom: normalize(10),
     borderBottomWidth: normalize(1),
+    color: '#000',
   },
   nonEditableText: {
     color: 'gray',
+  },
+  editableText: {
+    color: '#000',
   },
   phoneContainer: {
     flex: 7,
@@ -257,6 +261,7 @@ const styles = {
     paddingLeft: 12,
     fontSize: normalize(18),
     flex: 3,
+    color: '#000',
   },
 };
 

@@ -32,57 +32,57 @@ class AddMember extends Component {
       editable: true,
       showImage: false,
     };
-    props.navigation.setParams({
-      saveMember: this.saveMember,
-      setEditableTrue: this.setEditableTrue,
-      editable: this.state.editable,
-    });
+    // props.navigation.setParams({
+    //   saveMember: this.saveMember,
+    //   setEditableTrue: this.setEditableTrue,
+    //   editable: this.state.editable,
+    // });
   }
-  static navigationOptions = ({navigation}) => {
-    const member = navigation.getParam('member');
-    const editable = navigation.getParam(
-      'editable',
-      member == null ? true : false,
-    );
+  navigationOptions = ({navigation, route}) => {
+    // const member = navigation.getParam('member');
+
+    // const editable = navigation.getParam(
+    //   'editable',
+    //   member == null ? true : false,
+    // );
+    const member = route.params?.member ?? null;
+    const {editable} = this.state;
     const title = member != null ? 'BCSE - Member Info' : 'BCSE - Add Member';
-    return {
+    navigation.setOptions({
       title,
       headerStyle: {height: normalize(55)},
       headerTitleStyle: {fontSize: normalize(20)},
-      headerRight: (
+      headerRight: () => (
         <TouchableOpacity
-          onPress={
-            editable
-              ? navigation.getParam('saveMember')
-              : navigation.getParam('setEditableTrue')
-          }
+          onPress={editable ? this.saveMember : this.setEditableTrue}
           style={{paddingRight: 15}}>
           <Text style={{color: 'green', fontSize: normalize(20)}}>
-            {navigation.getParam('saveMember', '') == '' ||
+            {/* {navigation.getParam('saveMember', '') == '' ||
             navigation.getParam('setEditableTrue', '') == ''
               ? 'Load..'
-              : editable
-              ? 'Save'
-              : 'Edit'}
+              :  */}
+            {editable ? 'Save' : 'Edit'}
           </Text>
         </TouchableOpacity>
       ),
-      headerLeft: (
+      headerLeft: () => (
         <GoBackIconHeaderLeft
           navigation={navigation}
           iconStyle={ICONSTYLE.CROSS}
         />
       ),
-    };
+    });
   };
   componentDidMount() {
-    const member = (this.editMember = this.props.navigation.getParam(
-      'member',
-      null,
-    ));
+    // const member = (this.editableMember = this.props.navigation.getParam(
+    //   'member',
+    //   null,
+    // ));
+    this.editableMember = this.props.route.params?.member ?? null;
+    const member = this.editableMember;
 
     if (member != null) {
-      const fromContact = this.props.navigation.getParam('fromContact', false);
+      const fromContact = this.props.route.params?.fromContact ?? false;
       this.oldegf = member.egf;
       this.setState({
         [USERNAME.type]: member.userName,
@@ -94,13 +94,17 @@ class AddMember extends Component {
         editable: fromContact || false,
       });
     }
+    this.navigationOptions(this.props);
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.editable != prevState.editable) {
-      this.props.navigation.setParams({editable: this.state.editable});
+      // this.props.navigation.setParams({editable: this.state.editable});
+      this.navigationOptions(this.props);
     }
-    const newImageParam = this.props.navigation.getParam('imagePath', '');
-    const oldImageParam = prevProps.navigation.getParam('imagePath', '');
+    // const newImageParam = this.props.navigation.getParam('imagePath', '');
+    // const oldImageParam = prevProps.navigation.getParam('imagePath', '');
+    const newImageParam = this.props.route.params?.imagePath ?? '';
+    const oldImageParam = prevProps.route.params?.imagePath ?? '';
     if (newImageParam !== oldImageParam) {
       this.setState({
         [IMAGE.type]: newImageParam,
@@ -115,6 +119,7 @@ class AddMember extends Component {
   };
 
   saveMember = () => {
+    const fromContact = this.props.route.params?.fromContact ?? false;
     const {
       [USERNAME.type]: userName,
       [EGF.type]: egf,
@@ -128,9 +133,10 @@ class AddMember extends Component {
       egf,
       data: {
         id:
-          this.editMember &&
-          !this.props.navigation.getParam('fromContact', false)
-            ? this.editMember.id
+          this.editableMember &&
+          // !this.props.navigation.getParam('fromContact', false)
+          !fromContact
+            ? this.editableMember.id
             : this.uuidv4(),
         userName,
         image,
@@ -140,26 +146,24 @@ class AddMember extends Component {
         egf,
       },
     };
-    if (
-      this.editMember != null &&
-      !this.props.navigation.getParam('fromContact', false)
-    ) {
+    if (this.editableMember != null && !fromContact) {
       this.props.editMember({member, oldegf: this.oldegf});
     } else {
       this.props.addMember(member);
     }
-    this.props.navigation.getParam('fromContact', false)
+    fromContact
       ? this.props.navigation.navigate('AllMembers')
       : this.props.navigation.goBack();
   };
   uuidv4 = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (
-      c,
-    ) {
-      var r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+      /[xy]/g,
+      function (c) {
+        var r = (Math.random() * 16) | 0,
+          v = c == 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      },
+    );
   };
 
   onInputChange = (value, type) => {
@@ -198,7 +202,9 @@ class AddMember extends Component {
           <TouchableOpacity
             onPress={this.changeImageClick}
             disabled={!this.state.editable && isEmpty(profileIcon.uri)}>
-            <ImageBackground source={profileIcon} style={imageWrapper}>
+            <ImageBackground
+              source={profileIcon.uri ? profileIcon : null}
+              style={imageWrapper}>
               {!this.state.editable && isEmpty(profileIcon.uri) ? (
                 <Text style={[addImageIcon, {fontSize: normalize(30)}]}>
                   &#xf007;
@@ -271,7 +277,8 @@ export default connect('', {addMember, editMember})(AddMember);
 
 const styles = {
   mainContainer: {
-    margin: normalize(20),
+    padding: normalize(20),
+    backgroundColor: '#fff',
   },
   imageContainer: {
     justifyContent: 'center',

@@ -1,5 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {RefreshControl} from 'react-native';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from 'react';
+import {RefreshControl, StyleSheet} from 'react-native';
 import {Text, ToastAndroid, View} from 'react-native';
 import Contacts from 'react-native-contacts';
 import {FlatList} from 'react-native-gesture-handler';
@@ -21,6 +27,27 @@ const ImportContact = ({navigation}) => {
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [searchValue, setSearchValue] = useState('');
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'BCSE - Import Contacts',
+      headerStyle: {height: normalize(55)},
+      headerTitleStyle: {fontSize: normalize(20)},
+      headerLeft: () => (
+        <GoBackIconHeaderLeft
+          navigation={navigation}
+          iconStyle={ICONSTYLE.ARROW}
+        />
+      ),
+      headerRight: () => (
+        <AddSearchOptionsHeaderRight
+          navigation={navigation}
+          searchIcon={!showSearchBox}
+          toggleSearch={toggleSearch}
+        />
+      ),
+    });
+  }, [navigation, showSearchBox, toggleSearch]);
 
   const onRefresh = () => {
     startRefresh(() => !refresh);
@@ -60,12 +87,8 @@ const ImportContact = ({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [markedItems],
   );
-  useEffect(() => {
-    navigation.setParams({
-      toggleSearch,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   useEffect(() => {
     const handleBackpress = () => {
       if (showSearchBox || markedItems.length > 0) {
@@ -200,13 +223,10 @@ const ImportContact = ({navigation}) => {
   const addMembers = useCallback(() => {}, []);
   const toggleSearch = useCallback(() => {
     setShowSearchBox((prevState) => {
-      navigation.setParams({
-        searchIcon: prevState,
-      });
       return !prevState;
     });
     setFilterText('');
-  }, [navigation]);
+  }, []);
 
   // const onSearch = useCallback((value) => {
   //   // setSearchValue(value);
@@ -217,11 +237,8 @@ const ImportContact = ({navigation}) => {
 
   const closeSearch = useCallback(() => {
     setShowSearchBox(false);
-    navigation.setParams({
-      searchIcon: true,
-    });
     setFilterText('');
-  }, [navigation]);
+  }, []);
   const filteredList = filter();
   // useMemo(() => {
   //   setContacts((contacts) =>
@@ -231,7 +248,7 @@ const ImportContact = ({navigation}) => {
   //   );
   // }, [filterText]);
   return (
-    <View>
+    <View style={styles.mainContainer}>
       {showSearchBox && (
         <SearchBox
           placeholder="Search Member"
@@ -259,25 +276,10 @@ const ImportContact = ({navigation}) => {
   );
 };
 
-ImportContact.navigationOptions = ({navigationOptions, navigation}) => {
-  return {
-    title: 'BCSE - Import Contacts',
-    headerStyle: {height: normalize(55)},
-    headerTitleStyle: {fontSize: normalize(20)},
-    headerLeft: (
-      <GoBackIconHeaderLeft
-        navigation={navigation}
-        iconStyle={ICONSTYLE.ARROW}
-      />
-    ),
-    headerRight: (
-      <AddSearchOptionsHeaderRight
-        navigation={navigation}
-        searchIcon={navigation.getParam('searchIcon', true)}
-        toggleSearch={navigation.getParam('toggleSearch', () => {})}
-      />
-    ),
-  };
-};
-
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+});
 export default ImportContact;

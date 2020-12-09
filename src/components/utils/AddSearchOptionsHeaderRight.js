@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {TouchableOpacity, Text, View} from 'react-native';
+import {TouchableOpacity, Text, View, Platform} from 'react-native';
 import fonts from '../../utils/fonts';
 import MenuPopUpGeneral from './MenuPopUpGeneral';
 import PopupMenu from './PopupMenu';
@@ -29,29 +29,29 @@ const AddSearchOptionsHeaderRight = React.memo(
     showPopUpMenu,
   }) => {
     const {iconContainer, iconStyle} = styles;
-    // const _onPopupEvent = useCallback(
-    //   (eventName, index) => {
-    //     console.log('@aditya', eventName, index);
-    //     if (eventName !== 'itemSelected') {
-    //       return;
-    //     }
-    //     switch (index) {
-    //       case 0:
-    //         openAddModal();
-    //         break;
+    const _onPopupEventAndroid = useCallback(
+      (eventName, index) => {
+        console.log('@aditya', eventName, index);
+        if (eventName !== 'itemSelected') {
+          return;
+        }
+        switch (index) {
+          case 0:
+            openAddModal();
+            break;
 
-    //       case 1:
-    //         openImportContact();
-    //         break;
-    //       case 2:
-    //         saveExcel();
-    //         break;
-    //       default:
-    //         break;
-    //     }
-    //   },
-    //   [openAddModal, saveExcel, openImportContact],
-    // );
+          case 1:
+            openImportContact();
+            break;
+          case 2:
+            saveExcel();
+            break;
+          default:
+            break;
+        }
+      },
+      [openAddModal, saveExcel, openImportContact],
+    );
     const _onPopupEvent = useCallback(
       (index) => {
         switch (index) {
@@ -89,18 +89,21 @@ const AddSearchOptionsHeaderRight = React.memo(
       </TouchableOpacity> */}
         {showPopUpMenu && (
           <View>
-            {/* <PopupMenu
-              iconStyle={styles.iconStyle}
-              actions={MORE_OPTIONS}
-              onPress={_onPopupEvent}
-            /> */}
-            <MenuPopUpGeneral
-              iconStyle={styles.iconStyle}
-              actions={MORE_OPTIONS}
-              onPress={_onPopupEvent}
-              render={menuButtonRender}
-              source={POP_SOURCE.MORE_MENU_HEADER}
-            />
+            {Platform.OS === 'android' ? (
+              <PopupMenu
+                iconStyle={styles.iconStyle}
+                actions={MORE_OPTIONS}
+                onPress={_onPopupEventAndroid}
+              />
+            ) : (
+              <MenuPopUpGeneral
+                iconStyle={styles.iconStyle}
+                actions={MORE_OPTIONS}
+                onPress={_onPopupEvent}
+                render={menuButtonRender}
+                source={POP_SOURCE.MORE_MENU_HEADER}
+              />
+            )}
           </View>
         )}
       </View>

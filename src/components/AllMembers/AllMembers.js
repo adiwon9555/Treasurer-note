@@ -40,12 +40,7 @@ class AllMembers extends Component {
       }
       return false;
     });
-    this.props.navigation.setParams({
-      toggleSearch: this.toggleSearch,
-      saveExcel: this.saveExcel,
-      openAddModal: this.openAddModal,
-      openImportContact: this.openImportContact,
-    });
+    this.navigationOptions(this.props);
   }
   // componentWillUnmount(){
   //     this.didFocusSubscription.remove();
@@ -57,24 +52,24 @@ class AllMembers extends Component {
   openImportContact = () => {
     this.props.navigation.navigate('ImportContact');
   };
-  static navigationOptions = ({navigationOptions, navigation}) => {
-    return {
+  navigationOptions = ({navigation}) => {
+    navigation.setOptions({
       title: 'BCSE - All Members',
       headerStyle: {height: normalize(55)},
       headerTitleStyle: {fontSize: normalize(20)},
-      headerLeft: <DrawerIconHeaderLeft navigation={navigation} />,
-      headerRight: (
+      headerLeft: () => <DrawerIconHeaderLeft navigation={navigation} />,
+      headerRight: () => (
         <AddSearchOptionsHeaderRight
           navigation={navigation}
-          openAddModal={navigation.getParam('openAddModal', () => {})}
-          saveExcel={navigation.getParam('saveExcel', () => {})}
-          searchIcon={navigation.getParam('searchIcon', true)}
-          toggleSearch={navigation.getParam('toggleSearch', () => {})}
-          openImportContact={navigation.getParam('openImportContact', () => {})}
+          openAddModal={this.openAddModal}
+          saveExcel={this.saveExcel}
+          searchIcon={!this.state.showSearchBox}
+          toggleSearch={this.toggleSearch}
+          openImportContact={this.openImportContact}
           showPopUpMenu={true}
         />
       ),
-    };
+    });
   };
   saveExcel = () => {
     let c = 1;
@@ -203,25 +198,16 @@ class AllMembers extends Component {
         filterText: '',
       },
       () => {
-        this.props.navigation.setParams({
-          searchIcon: !this.state.showSearchBox,
-        });
+        this.navigationOptions(this.props);
       },
     );
   };
 
   closeSearch = () => {
-    this.setState(
-      {
-        filterText: '',
-        showSearchBox: false,
-      },
-      () => {
-        this.props.navigation.setParams({
-          searchIcon: !this.state.showSearchBox,
-        });
-      },
-    );
+    this.setState({
+      filterText: '',
+      showSearchBox: false,
+    });
   };
 
   filter = memoize((list, filterText) => {
@@ -290,6 +276,7 @@ const styles = {
   memberListContainer: {
     marginLeft: normalize(5),
     marginRight: normalize(5),
+    backgroundColor: '#fff',
   },
   sectionHeader: {
     fontSize: normalize(20),

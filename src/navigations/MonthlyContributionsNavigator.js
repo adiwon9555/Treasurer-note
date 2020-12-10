@@ -13,11 +13,11 @@ export default function MonthlyContributionsNavigator({navigation, route}) {
   return (
     <Stack.Navigator
       initialRouteName="MonthlyContributions"
-      setOptions={{
+      screenOptions={{
         title: 'BCSE - Statements',
         headerStyle: {height: normalize(55)},
         headerTitleStyle: {fontSize: normalize(20)},
-        headerLeft: <DrawerIconHeaderLeft navigation={navigation} />,
+        headerLeft: () => <DrawerIconHeaderLeft navigation={navigation} />,
       }}>
       <Stack.Screen
         name="MonthlyContributions"

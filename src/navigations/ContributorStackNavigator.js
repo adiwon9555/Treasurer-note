@@ -13,11 +13,11 @@ export default function ContributorStackNavigator({navigation, route}) {
   return (
     <Stack.Navigator
       initialRouteName="ContributorList"
-      setOptions={{
+      screenOptions={{
         title: 'BCSE - Contributors',
         headerStyle: {height: normalize(55)},
         headerTitleStyle: {fontSize: normalize(20)},
-        headerLeft: <DrawerIconHeaderLeft navigation={navigation} />,
+        headerLeft: () => <DrawerIconHeaderLeft navigation={navigation} />,
       }}>
       <Stack.Screen name="ContributorList" component={ContributorList} />
     </Stack.Navigator>

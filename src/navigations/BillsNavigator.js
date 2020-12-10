@@ -13,11 +13,11 @@ export default function BillsNavigator({navigation, route}) {
   return (
     <Stack.Navigator
       initialRouteName="AllBills"
-      setOptions={{
+      screenOptions={{
         title: 'BCSE - Bills',
         headerStyle: {height: normalize(55)},
         headerTitleStyle: {fontSize: normalize(20)},
-        headerLeft: <DrawerIconHeaderLeft navigation={navigation} />,
+        headerLeft: () => <DrawerIconHeaderLeft navigation={navigation} />,
       }}>
       <Stack.Screen name="AllBills" component={AllBills} />
     </Stack.Navigator>

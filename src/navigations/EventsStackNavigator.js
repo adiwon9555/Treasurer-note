@@ -14,11 +14,11 @@ export default function EventsStackNavigator({navigation, route}) {
   return (
     <Stack.Navigator
       initialRouteName="EventsTopNavigator"
-      setOptions={{
+      screenOptions={{
         title: 'BCSE - Events',
         headerStyle: {height: normalize(55)},
         headerTitleStyle: {fontSize: normalize(20)},
-        headerLeft: <DrawerIconHeaderLeft navigation={navigation} />,
+        headerLeft: () => <DrawerIconHeaderLeft navigation={navigation} />,
       }}>
       <Stack.Screen name="EventsTopNavigator" component={EventsTopNavigator} />
     </Stack.Navigator>

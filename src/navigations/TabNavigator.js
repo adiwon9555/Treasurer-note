@@ -167,7 +167,7 @@ const tabBarOptions = {
     height: normalize(55),
     backgroundColor: '#fff',
     // paddingBottom: 4,
-    paddingTop: normalize(5),
+    // paddingTop: normalize(5),
   },
 };
 
@@ -175,5 +175,6 @@ const styles = {
   tabIconStyle: {
     fontFamily: fonts.solidIcons,
     fontSize: normalize(20),
+    paddingTop: normalize(5),
   },
 };

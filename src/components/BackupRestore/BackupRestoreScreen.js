@@ -1,6 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Text, View, TouchableHighlight, StyleSheet} from 'react-native';
-import {acc} from 'react-native-reanimated';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  Text,
+  View,
+  TouchableHighlight,
+  StyleSheet,
+  ToastAndroid,
+} from 'react-native';
 import {isEmpty} from '../utils/utils';
 import BackupUtils from './BackupUtils';
 import GoogleSignInUtils from './GoogleSignInUtils';
@@ -21,10 +26,15 @@ export default function BackupRestoreScreen() {
 
       const data = await BackupUtils.checkFile(accessToken.current);
       console.log('@aditya new content', data);
-
-      setContent([...JSON.parse(data)]);
+      if (!isEmpty(data)) {
+        setContent([...JSON.parse(data)]);
+      } else {
+        ToastAndroid.show('Content is Empty', ToastAndroid.SHORT);
+        setContent(null);
+      }
     } catch (e) {
-      alert('Encountered Error');
+      // alert('Encountered Error');
+      ToastAndroid.show('Encountered Error getting data', ToastAndroid.SHORT);
       console.log('Encountered error', e);
     }
   };
@@ -51,10 +61,26 @@ export default function BackupRestoreScreen() {
 
       BackupUtils.createFile(accessToken.current, content);
     } catch (e) {
-      alert('Encountered Error');
+      // alert('Encountered Error');
+      ToastAndroid.show('Encountered Error during backup', ToastAndroid.SHORT);
       console.log('Encountered error', e);
     }
   };
+  const deleteFile = useCallback(async () => {
+    const isSignedIn = await GoogleSignInUtils.isSignedIn();
+    try {
+      if (!isSignedIn || isEmpty(accessToken.current)) {
+        await GoogleSignInUtils.initialGoogle();
+        accessToken.current = await GoogleSignInUtils.getAccessToken();
+      }
+      const response = BackupUtils.deleteFile(accessToken.current);
+      console.log('@aditya delete response', response);
+    } catch (e) {
+      // alert('Encountered Error');
+      ToastAndroid.show('Encountered Error deleting data', ToastAndroid.SHORT);
+      console.log('Encountered error', e);
+    }
+  }, []);
   return (
     <View style={styles.container}>
       <TouchableHighlight
@@ -71,6 +97,9 @@ export default function BackupRestoreScreen() {
         style={styles.buttonGetData}
         onPress={GoogleSignInUtils.signOut}>
         <Text style={styles.text}>SignOut</Text>
+      </TouchableHighlight>
+      <TouchableHighlight style={styles.buttonGetData} onPress={deleteFile}>
+        <Text style={styles.text}>Delete File</Text>
       </TouchableHighlight>
       <Text style={styles.textData}>{content}</Text>
     </View>

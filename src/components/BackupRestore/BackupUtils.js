@@ -1,5 +1,6 @@
 import {PermissionsAndroid} from 'react-native';
 import RNFS from 'react-native-fs';
+import {isEmpty} from '../utils/utils';
 import GdriveUtils from './GdriveUtils';
 
 const downloadHeaderPath = RNFS.DocumentDirectoryPath + '/data.json'; // see more path directory https://github.com/itinance/react-native-fs#api
@@ -118,6 +119,22 @@ const checkFile = async (accessToken) => {
     });
 };
 
+// check existed file
+const deleteFile = async (accessToken) => {
+  return GdriveUtils.getFile(accessToken, BACKUP_FILE_NAME, STORAGE_FOLDER)
+    .then((file) => {
+      console.log('file', file);
+      if (!isEmpty(file) && !isEmpty(file.id)) {
+        return GdriveUtils.deleteFile(accessToken, file.id);
+      } else {
+        console.log('file no found');
+      }
+    })
+    .catch((error) => {
+      console.log('error', error);
+    });
+};
+
 // crete file to upload
 const createFile = (accessToken, content) => {
   // const content = [
@@ -162,6 +179,7 @@ const BackupUtils = {
   createFile,
   checkFile,
   downloadAndReadFile,
+  deleteFile,
 };
 
 export default BackupUtils;

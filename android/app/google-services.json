@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1081885423727",
+    "project_id": "treasurer-app-uesi",
+    "storage_bucket": "treasurer-app-uesi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081885423727:android:17dc5b3f51cdb066cb759a",
+        "android_client_info": {
+          "package_name": "com.treasurernote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081885423727-fc7noqraskqs2u77m96k1q745mp26rt7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.treasurernote",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1081885423727-84d3202dmqs57bffcus341tnk2bmuue9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJes1l45lWrF8MN9tsm3WIOOS4vWoctz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081885423727-84d3202dmqs57bffcus341tnk2bmuue9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1081885423727-vrur5mj1qoqp5c91k3usdlj2bqlq2loh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.treasurerApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

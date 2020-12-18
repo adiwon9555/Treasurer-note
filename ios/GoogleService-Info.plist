@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1081885423727-t09d5nninmd8rehb9n3hjij737nle95n.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1081885423727-t09d5nninmd8rehb9n3hjij737nle95n</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1081885423727-fc7noqraskqs2u77m96k1q745mp26rt7.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyArI2JbF-_WQsuoTn4e6W6pfK-zrD_8veM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1081885423727</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.treasurerNote</string>
+	<key>PROJECT_ID</key>
+	<string>treasurer-app-uesi</string>
+	<key>STORAGE_BUCKET</key>
+	<string>treasurer-app-uesi.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1081885423727:ios:5b409aa688aa44c6cb759a</string>
+</dict>
+</plist>

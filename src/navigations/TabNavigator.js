@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Platform, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {normalize} from './../components/utils/utils';
 import AllMembersNavigator from './AllMembersNavigator';
@@ -164,7 +164,7 @@ const tabBarOptions = {
     paddingBottom: normalize(5),
   },
   style: {
-    height: normalize(55),
+    height: Platform.OS === 'ios' ? normalize(80) : normalize(55),
     backgroundColor: '#fff',
     // paddingBottom: 4,
     // paddingTop: normalize(5),

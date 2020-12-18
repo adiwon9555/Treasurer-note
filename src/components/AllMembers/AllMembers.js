@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, SectionList, BackHandler, Linking} from 'react-native';
+import {
+  View,
+  Text,
+  SectionList,
+  BackHandler,
+  Linking,
+  Platform,
+} from 'react-native';
 import MemberCard from './MemberCard';
 import AddSearchOptionsHeaderRight from '../utils/AddSearchOptionsHeaderRight';
 import {normalize} from '../utils/utils';
@@ -55,7 +62,9 @@ class AllMembers extends Component {
   navigationOptions = ({navigation}) => {
     navigation.setOptions({
       title: 'BCSE - All Members',
-      headerStyle: {height: normalize(55)},
+      headerStyle: {
+        height: Platform.OS === 'ios' ? normalize(90) : normalize(55),
+      },
       headerTitleStyle: {fontSize: normalize(20)},
       headerLeft: () => <DrawerIconHeaderLeft navigation={navigation} />,
       headerRight: () => (

@@ -7,6 +7,45 @@ const downloadHeaderPath = RNFS.DocumentDirectoryPath + '/data.json'; // see mor
 
 const BACKUP_FILE_NAME = 'data.json';
 const STORAGE_FOLDER = 'appDataFolder';
+export const ACTION_TYPE = {
+  BACK_UP: 'BACK_UP',
+  RESTORE: 'RESTORE',
+  DELETE_FILE: 'DELETE_FILE',
+  SIGN_OUT: 'SIGN_OUT',
+};
+const ACTIONS = [
+  {
+    action: 'BACK_UP',
+    title: 'Backup Entire Data',
+    description:
+      'Back up your entire app data to your Google Drive. You can Restore them any time you want. Please Note that that new Backup data will replace previous one.',
+    buttonText: 'BACK UP',
+    buttonColor: '#25D366',
+  },
+  {
+    action: 'RESTORE',
+    title: 'Restore App Data',
+    description:
+      'Restoring will delete all your present data and replace with the previously backed up data from Google Drive. Please Note that this change is unrecoverable.',
+    buttonText: 'RESTORE',
+    buttonColor: 'red',
+  },
+  // {
+  //   action: 'DELETE_FILE',
+  //   title: 'Delete Backed up Data',
+  //   description:
+  //     'The Backup copy stored in your Google Drive will be permananty Deleted.',
+  //   buttonText: 'DELETE',
+  //   buttonColor: 'red',
+  // },
+  {
+    action: 'SIGN_OUT',
+    title: 'Google account Sign out',
+    description: 'Your account linked with Treasurer App will be signed out.',
+    buttonText: 'SIGN OUT',
+    buttonColor: 'red',
+  },
+];
 
 // check storage permission
 const checkPermission = () => {
@@ -180,6 +219,7 @@ const BackupUtils = {
   checkFile,
   downloadAndReadFile,
   deleteFile,
+  ACTIONS,
 };
 
 export default BackupUtils;

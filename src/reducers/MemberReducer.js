@@ -195,6 +195,10 @@ export const MemberReducer = (state = initialState, action) => {
       }
 
       return newState;
+    case Members.UPDATE_MEMBER_LIST:
+      newState = {...state, memberList: action.payload};
+      console.log('@aditya Updated Restored memberReducer', newState);
+      return newState;
     default:
       return state;
   }

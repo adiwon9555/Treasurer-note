@@ -194,7 +194,7 @@ const createFile = (accessToken, content) => {
       if (file) {
         GdriveUtils.uploadFile(
           accessToken,
-          JSON.stringify(content),
+          content,
           BACKUP_FILE_NAME,
           STORAGE_FOLDER,
           file.id,
@@ -202,7 +202,7 @@ const createFile = (accessToken, content) => {
       } else {
         GdriveUtils.uploadFile(
           accessToken,
-          JSON.stringify(content),
+          content,
           BACKUP_FILE_NAME,
           STORAGE_FOLDER,
         );

@@ -213,10 +213,15 @@ class AllMembers extends Component {
   };
 
   closeSearch = () => {
-    this.setState({
-      filterText: '',
-      showSearchBox: false,
-    });
+    this.setState(
+      {
+        filterText: '',
+        showSearchBox: false,
+      },
+      () => {
+        this.navigationOptions(this.props);
+      },
+    );
   };
 
   filter = memoize((list, filterText) => {

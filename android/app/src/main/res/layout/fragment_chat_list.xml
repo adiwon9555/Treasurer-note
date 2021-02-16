@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chats.chatList.ui.ChatListFragment">
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".chats.ui.chatList.ChatListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/chat_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_newChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_mesage_white"
+        android:backgroundTint="@android:color/holo_blue_dark"/>
 
 
-</FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

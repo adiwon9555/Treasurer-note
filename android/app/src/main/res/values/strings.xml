@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">treasurerNote</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_name" translatable="true">TreasurerNotification</string>
+    <string name="title_activity_new_chat_tabs">NewChatTabsActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

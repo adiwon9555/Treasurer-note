@@ -2,7 +2,10 @@
 <resources>
 
     <color name="gray_border">#A9A9A9</color>
+    <color name="dark_gray">#455A64</color>
     <color name="green_toolbar">#179A65</color>
+    <color name="message_left">#C3EBFD</color>
+    <color name="message_right">#dcf8c6</color>
 
 
 

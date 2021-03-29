@@ -50,7 +50,7 @@ class ChatMainActivity: AppCompatActivity() {
 //            val msg = getString(R.string.msg_token_fmt token)
             val msg = token.toString();
             Log.d(TAG, msg)
-            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
         })
 
     }

@@ -1,12 +1,11 @@
 package com.treasurernote.chats.ui.chatList
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.treasurernote.chats.data.ChatItem
+import com.treasurernote.chats.data.model.ChatItem
 import com.treasurernote.databinding.ChatItemBinding
 
 class ChatListAdapter : ListAdapter<ChatItem,ChatListAdapter.ChatListViewHolder>(DiffCallback()) {

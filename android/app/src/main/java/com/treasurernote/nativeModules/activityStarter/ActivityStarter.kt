@@ -4,10 +4,13 @@ import android.content.Intent
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.treasurernote.MainApplication
 import com.treasurernote.chats.ChatMainActivity
 
 
 class ActivityStarter(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+
+
 
     override fun getName(): String {
         return "ActivityStarter"
@@ -16,6 +19,7 @@ class ActivityStarter(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun navigateToChatActivity() {
         val context = reactApplicationContext
+        MainApplication.setReactContext(context)
         val intent = Intent(context, ChatMainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
         context.startActivity(intent)

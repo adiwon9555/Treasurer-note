@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="295dp"
+    android:padding="9dp"
+    android:background="@drawable/message_shape_left"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/leftText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        tools:text="The quick brown fox jumps over the lazy dog .."/>
+    <TextView
+        android:id="@+id/leftTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="3:42 pm"
+        android:textSize="12sp"
+        android:textColor="@color/dark_gray"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/leftText"/>
+
+
+
+</RelativeLayout>

@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.treasurernote.R
-import com.treasurernote.chats.data.ChatItem
+import com.treasurernote.chats.data.model.ChatItem
 import com.treasurernote.databinding.FragmentChatListBinding
 
 
@@ -44,15 +41,17 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
 //                addItemDecoration(itemDecorator)
 
             }
-            fabNewChat.setOnClickListener { view ->
-                val action = ChatListFragmentDirections.actionChatListFragmentToNewChatTabsFragmant2()
+            fabNewChat.setOnClickListener {
+//                val action = ChatListFragmentDirections.actionChatListFragmentToNewChatTabsFragmant2()
+//                findNavController().navigate(action)
+                val action = ChatListFragmentDirections.actionChatListFragmentToMessageListFragmant()
                 findNavController().navigate(action)
             }
         }
         val chatList = listOf<ChatItem>(
-                ChatItem("Aditya","",1612970970603,"This is last message",1),
-                ChatItem("Rashmie","",1612970970603,"This is second message",2),
-                ChatItem("Ritik","https://www.google.com/imgres?imgurl=https%3A%2F%2Fmedia-exp1.licdn.com%2Fdms%2Fimage%2FC5603AQHxp-TWDdflPA%2Fprofile-displayphoto-shrink_200_200%2F0%3Fe%3D1609977600%26v%3Dbeta%26t%3DlwKOpQW5vNi3IWAGoRWHBgy5Vo4H2dIWZcwqu8Oz_6g&imgrefurl=https%3A%2F%2Fin.linkedin.com%2Fin%2Fritik-garg-4b76b3129&tbnid=E7ys37pkhHqAfM&vet=12ahUKEwiorPrb0d_uAhWERnwKHULICnMQMyg_egQIARBC..i&docid=qoeNBHY50j-ChM&w=200&h=200&itg=1&q=ritik%20garg&ved=2ahUKEwiorPrb0d_uAhWERnwKHULICnMQMyg_egQIARBC",1612970970603,"This is third message",3),
+                ChatItem("Aditya", "", 1612970970603, "This is last message", 1,1),
+                ChatItem("Rashmie", "", 1612970970603, "This is second message", 2,2),
+                ChatItem("Ritik", "https://www.google.com/imgres?imgurl=https%3A%2F%2Fmedia-exp1.licdn.com%2Fdms%2Fimage%2FC5603AQHxp-TWDdflPA%2Fprofile-displayphoto-shrink_200_200%2F0%3Fe%3D1609977600%26v%3Dbeta%26t%3DlwKOpQW5vNi3IWAGoRWHBgy5Vo4H2dIWZcwqu8Oz_6g&imgrefurl=https%3A%2F%2Fin.linkedin.com%2Fin%2Fritik-garg-4b76b3129&tbnid=E7ys37pkhHqAfM&vet=12ahUKEwiorPrb0d_uAhWERnwKHULICnMQMyg_egQIARBC..i&docid=qoeNBHY50j-ChM&w=200&h=200&itg=1&q=ritik%20garg&ved=2ahUKEwiorPrb0d_uAhWERnwKHULICnMQMyg_egQIARBC", 1612970970603, "This is third message", 3),
         )
         chatListAdapter.submitList(chatList)
 

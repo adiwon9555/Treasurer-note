@@ -1,4 +1,4 @@
-package com.treasurernote.chats.data
+package com.treasurernote.chats.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

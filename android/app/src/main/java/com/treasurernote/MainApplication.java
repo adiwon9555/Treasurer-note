@@ -11,6 +11,7 @@ import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.soloader.SoLoader;
 import com.treasurernote.nativeModules.activityStarter.ActivityStarterPackage;
 
@@ -18,6 +19,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
+    private static ReactApplicationContext reactApplicationContext = null;
+
+    public static void setReactContext(ReactApplicationContext rc) {
+        reactApplicationContext = rc;
+    }
+
+    public static ReactApplicationContext getReactContext() {
+        return reactApplicationContext;
+    }
 
     private final ReactNativeHost mReactNativeHost =
             new ReactNativeHost(this) {

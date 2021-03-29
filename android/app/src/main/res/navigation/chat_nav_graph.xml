@@ -6,7 +6,24 @@
     app:startDestination="@id/chatListFragment">
     <fragment
         android:id="@+id/chatListFragment"
-        android:name="com.treasurernote.chats.chatList.ui.ChatListFragment"
+        android:name="com.treasurernote.chats.ui.chatList.ChatListFragment"
         android:label="Chats"
-        tools:layout="@layout/fragment_chat_list" />
+        tools:layout="@layout/fragment_chat_list" >
+        <action
+            android:id="@+id/action_chatListFragment_to_newChatTabsFragmant2"
+            app:destination="@id/newChatTabsFragmant" />
+        <action
+            android:id="@+id/action_chatListFragment_to_messageListFragmant"
+            app:destination="@id/messageListFragmant" />
+    </fragment>
+    <fragment
+        android:id="@+id/newChatTabsFragmant"
+        android:name="com.treasurernote.chats.ui.newChatTabs.NewChatTabsFragment"
+        android:label="New Chat"
+        tools:layout="@layout/new_chat_tabs" />
+    <fragment
+        android:id="@+id/messageListFragmant"
+        android:name="com.treasurernote.chats.ui.messageList.MessageListFragmant"
+        android:label="message_list"
+        tools:layout="@layout/message_list" />
 </navigation>

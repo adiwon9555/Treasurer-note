@@ -24,6 +24,7 @@ buildscript {
         roomVersion = "2.2.5"
         testExtJunitVersion = "1.1.2"
         androidToolsVersion = '3.5.3'
+        gsonVersion = '2.8.6'
     }
     repositories {
         google()

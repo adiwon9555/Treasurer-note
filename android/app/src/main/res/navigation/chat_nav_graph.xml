@@ -14,7 +14,9 @@
             app:destination="@id/newChatTabsFragmant" />
         <action
             android:id="@+id/action_chatListFragment_to_messageListFragmant"
-            app:destination="@id/messageListFragmant" />
+            app:destination="@id/messageListFragmant"
+            app:enterAnim="@anim/catalyst_slide_up"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/newChatTabsFragmant"
@@ -24,6 +26,11 @@
     <fragment
         android:id="@+id/messageListFragmant"
         android:name="com.treasurernote.chats.ui.messageList.MessageListFragmant"
-        android:label="message_list"
-        tools:layout="@layout/message_list" />
+        android:label="{title}"
+        tools:layout="@layout/message_list" >
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="Unknown" />
+    </fragment>
 </navigation>

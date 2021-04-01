@@ -7,30 +7,34 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="295dp"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_margin="5dp"
-        android:background="@drawable/message_shape_right"
+
         android:orientation="vertical"
-        android:padding="9dp">
+        >
 
         <TextView
+            android:background="@drawable/message_shape_right"
             android:id="@+id/rightText"
+            android:layout_margin="5dp"
+            android:padding="12dp"
+            android:minWidth="100dp"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            tools:text="The quick brown fox jumps over the lazy dog .." />
+            tools:text="The quick brown fox jumps." />
 
-        <TextView
-            android:id="@+id/rightTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/rightText"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/dark_gray"
-            android:textSize="12sp"
-            tools:text="3:42 pm" />
+<!--        <TextView-->
+<!--            android:id="@+id/rightTime"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignBottom="@id/rightText"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:textColor="@color/dark_gray"-->
+<!--            android:textSize="12sp"-->
+<!--            tools:text="3:42 pm" />-->
 
 
     </RelativeLayout>

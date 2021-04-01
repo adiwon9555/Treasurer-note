@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.treasurernote.chats.data.model.ChatItem
 import com.treasurernote.databinding.ChatItemBinding
 
-class ChatListAdapter : ListAdapter<ChatItem,ChatListAdapter.ChatListViewHolder>(DiffCallback()) {
+class ChatListAdapter(private val listener: ChatItemClickListener) : ListAdapter<ChatItem,ChatListAdapter.ChatListViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatListViewHolder {
         val binding = ChatItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -20,7 +20,18 @@ class ChatListAdapter : ListAdapter<ChatItem,ChatListAdapter.ChatListViewHolder>
         holder.bind(currentItem)
     }
 
-    class ChatListViewHolder(private val binding: ChatItemBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ChatListViewHolder(private val binding: ChatItemBinding) : RecyclerView.ViewHolder(binding.root){
+
+        init {
+            binding.apply {
+                root.setOnClickListener{
+                    val position = adapterPosition
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onItemClick(getItem(position))
+                    }
+                }
+            }
+        }
 
         fun bind(chatItem: ChatItem){
             binding.apply {
@@ -33,6 +44,10 @@ class ChatListAdapter : ListAdapter<ChatItem,ChatListAdapter.ChatListViewHolder>
 
         }
 
+    }
+
+    interface ChatItemClickListener{
+        fun onItemClick(chatItem: ChatItem)
     }
     class DiffCallback : DiffUtil.ItemCallback<ChatItem>() {
         override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem) =

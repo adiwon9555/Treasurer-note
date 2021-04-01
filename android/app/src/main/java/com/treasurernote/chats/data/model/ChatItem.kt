@@ -7,6 +7,7 @@ import java.text.DateFormat
 @Parcelize
 data class ChatItem(
         val profileName: String,
+        val phoneNumber: String,
         val profileImage: String,
         val lastMessageTime: Long,
         val lastMessage: String,

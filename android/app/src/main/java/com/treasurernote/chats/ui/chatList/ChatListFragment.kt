@@ -6,17 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.treasurernote.R
 import com.treasurernote.chats.data.model.ChatItem
 import com.treasurernote.databinding.FragmentChatListBinding
+import com.treasurernote.utils.exhaustive
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 
 class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
     var _binding: FragmentChatListBinding? = null
 
     val binding get() = _binding!!
+
+    private val viewModel : ChatListViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -33,10 +40,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
 //        context?.let { ContextCompat.getDrawable(it, R.drawable.chat_list_divider)?.let { itemDecorator.setDrawable(it) } }
         val chatListAdapter = ChatListAdapter(object : ChatListAdapter.ChatItemClickListener{
             override fun onItemClick(chatItem: ChatItem) {
-//                TODO("Give Command to ViewModel later")
-                val title = chatItem.profileName
-                val action = ChatListFragmentDirections.actionChatListFragmentToMessageListFragmant(title)
-                findNavController().navigate(action)
+                viewModel.onChatItemClicked(chatItem)
             }
         })
         binding.apply {
@@ -49,10 +53,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
 
             }
             fabNewChat.setOnClickListener {
-                val action = ChatListFragmentDirections.actionChatListFragmentToNewChatTabsFragmant2()
-                findNavController().navigate(action)
-//                val action = ChatListFragmentDirections.actionChatListFragmentToMessageListFragmant()
-//                findNavController().navigate(action)
+                viewModel.onNewChatClicked()
             }
         }
         val chatList = listOf<ChatItem>(
@@ -62,6 +63,21 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         )
         chatListAdapter.submitList(chatList)
 
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.chatListEvent.collect { events ->
+                when(events){
+                    is ChatListViewModel.ChatListEvent.NavigateToMessageListScreen -> {
+                        val title = events.chatItem.profileName
+                        val action = ChatListFragmentDirections.actionChatListFragmentToMessageListFragmant(title)
+                        findNavController().navigate(action)
+                    }
+                    is ChatListViewModel.ChatListEvent.NavigateToNewChatScreen -> {
+                        val action = ChatListFragmentDirections.actionChatListFragmentToNewChatTabsFragmant2()
+                        findNavController().navigate(action)
+                    }
+                }.exhaustive
+            }
+        }
 
 
 

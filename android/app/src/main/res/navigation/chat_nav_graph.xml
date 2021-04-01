@@ -22,7 +22,11 @@
         android:id="@+id/newChatTabsFragmant"
         android:name="com.treasurernote.chats.ui.newChatTabs.NewChatTabsFragment"
         android:label="New Chat"
-        tools:layout="@layout/new_chat_tabs" />
+        tools:layout="@layout/new_chat_tabs" >
+        <action
+            android:id="@+id/action_newChatTabsFragmant_to_messageListFragmant"
+            app:destination="@id/messageListFragmant" />
+    </fragment>
     <fragment
         android:id="@+id/messageListFragmant"
         android:name="com.treasurernote.chats.ui.messageList.MessageListFragmant"

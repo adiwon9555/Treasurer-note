@@ -45,7 +45,7 @@ class AsyncStorage(var context: ReactApplicationContext) {
                                     val image = data.getJSONObject(i).optString("image").toString()
                                     val egf = data.getJSONObject(i).optString("egf").toString()
 
-                                    val contactMemberItem = ContactMemberItem(profileName,image,phone,email,egf,id=id)
+                                    val contactMemberItem = ContactMemberItem(id,profileName,image,phone,email,egf)
                                     memberList.add(contactMemberItem)
                                 }
                             }

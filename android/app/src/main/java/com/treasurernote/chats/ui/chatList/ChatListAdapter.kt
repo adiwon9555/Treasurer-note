@@ -35,7 +35,7 @@ class ChatListAdapter(private val listener: ChatItemClickListener) : ListAdapter
 
         fun bind(chatItem: ChatItem){
             binding.apply {
-                profileName.text = chatItem.profileName
+                profileName.text = chatItem.chatName
                 lastMessage.text = chatItem.lastMessage
                 lastMessageTime.text = chatItem.getFormatedLastMessageTime
 //                profileImage.setImageURI(Uri.parse(chatItem.profileImage))

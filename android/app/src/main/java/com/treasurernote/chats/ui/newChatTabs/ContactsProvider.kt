@@ -39,7 +39,7 @@ class ContactsProvider(private val contentResolver: ContentResolver) {
                         val phone = cursorInfo.getString(cursorInfo.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                         val photo = photo
                         val photoURI = pURI
-                        val info = ContactMemberItem(name,photoURI.toString(),phone,"",id = id)
+                        val info = ContactMemberItem(id,name,photoURI.toString(),phone,"")
                         list.add(info)
                     }
                     cursorInfo.close()

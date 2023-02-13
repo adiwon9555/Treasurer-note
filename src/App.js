@@ -4,9 +4,15 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 import Routes from './navigations/routes';
 import {PersistGate} from 'redux-persist/integration/react';
 import configureStore from './configureStore';
+import {enableScreens} from 'react-native-screens';
 
 const {store, persistor} = configureStore();
 export default class App extends Component {
+  constructor() {
+    super();
+    enableScreens(true);
+  }
+
   render() {
     return (
       <Provider store={store}>

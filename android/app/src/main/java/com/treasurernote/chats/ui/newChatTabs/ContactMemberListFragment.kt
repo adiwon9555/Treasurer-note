@@ -11,6 +11,9 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableArray
 import com.rt2zz.reactnativecontacts.ContactsProvider
@@ -20,6 +23,8 @@ import com.treasurernote.R
 import com.treasurernote.chats.data.model.ContactMemberItem
 import com.treasurernote.databinding.ContactMemberListFragmentBinding
 import com.treasurernote.utils.AsyncStorage
+import com.treasurernote.utils.exhaustive
+import kotlinx.coroutines.flow.collect
 
 enum class LIST_TYPE {
     CONTACT,
@@ -28,11 +33,19 @@ enum class LIST_TYPE {
 
 
 class ContactMemberListFragment(private val listType: LIST_TYPE) : Fragment(R.layout.contact_member_list_fragment) {
+
+    private val viewModel : ContactMemberViewModel by viewModels()
+
+    private val contactMemberAdapter = ContactMemberAdapter(object : ContactMemberAdapter.ContactMemberItemClickListener{
+        override fun onItemClick(contactMemberItem: ContactMemberItem) {
+            viewModel.onContactMemberItemClick(contactMemberItem)
+        }
+    })
+
     companion object{
         private const val TAG = "ContactMemberListFragme"
         private const val PERMISSIONS_REQUEST_READ_CONTACTS = 101
     }
-    private val contactMemberAdapter = ContactMemberAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = ContactMemberListFragmentBinding.bind(view)
@@ -50,11 +63,25 @@ class ContactMemberListFragment(private val listType: LIST_TYPE) : Fragment(R.la
             }
         }else{
             val memberList = mutableListOf<ContactMemberItem>(
-                    ContactMemberItem("Member1","","2132134214","member1.mem.com",id="1"),
-                    ContactMemberItem("Member2","","324234","member2.mem.com",id="2")
+                    ContactMemberItem("1","Member1","","2132134214","member1.mem.com"),
+                    ContactMemberItem("2","Member2","","324234","member2.mem.com")
             )
             val mL = AsyncStorage(MainApplication.getReactContext()).fetchKey("MemberReducer","memberList")
             contactMemberAdapter.submitList(mL)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.contactMemberEvent.collect { event ->
+                when(event){
+                    is ContactMemberViewModel.ContactMemberEvent.NavigateToMessageScreen -> {
+                        val title = event.contactMemberItem.profileName
+                        val action = NewChatTabsFragmentDirections.actionNewChatTabsFragmantToMessageListFragmant(title)
+                        findNavController().navigate(action)
+
+                    }
+                }.exhaustive
+
+            }
         }
 
     }
@@ -130,7 +157,7 @@ class ContactMemberListFragment(private val listType: LIST_TYPE) : Fragment(R.la
             }
 
 
-            formattedContactMemberList.add(ContactMemberItem(profileName,"", phoneNumber,email))
+            formattedContactMemberList.add(ContactMemberItem(phoneNumber!!,profileName,"", phoneNumber,email))
         }
         return formattedContactMemberList
     }

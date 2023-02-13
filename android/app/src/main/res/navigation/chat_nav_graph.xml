@@ -16,7 +16,7 @@
             android:id="@+id/action_chatListFragment_to_messageListFragmant"
             app:destination="@id/messageListFragmant"
             app:enterAnim="@anim/catalyst_slide_up"
-            app:exitAnim="@android:anim/fade_out" />
+            app:popEnterAnim="@anim/catalyst_slide_up" />
     </fragment>
     <fragment
         android:id="@+id/newChatTabsFragmant"
@@ -25,7 +25,10 @@
         tools:layout="@layout/new_chat_tabs" >
         <action
             android:id="@+id/action_newChatTabsFragmant_to_messageListFragmant"
-            app:destination="@id/messageListFragmant" />
+            app:destination="@id/messageListFragmant"
+            app:enterAnim="@anim/catalyst_slide_up"
+            app:popEnterAnim="@anim/catalyst_slide_up"
+            app:popUpTo="@id/chatListFragment" />
     </fragment>
     <fragment
         android:id="@+id/messageListFragmant"

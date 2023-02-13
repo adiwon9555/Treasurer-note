@@ -11,7 +11,7 @@ import com.treasurernote.databinding.ChatItemBinding
 import com.treasurernote.databinding.ContactMemberItemBinding
 import com.treasurernote.databinding.ContactMemberListFragmentBinding
 
-class ContactMemberAdapter : ListAdapter<ContactMemberItem,ContactMemberAdapter.ContactMemberViewHolder>(DiffCallback()) {
+class ContactMemberAdapter(private val listener : ContactMemberItemClickListener) : ListAdapter<ContactMemberItem,ContactMemberAdapter.ContactMemberViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactMemberViewHolder {
         val binding = ContactMemberItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ContactMemberViewHolder(binding)
@@ -22,7 +22,18 @@ class ContactMemberAdapter : ListAdapter<ContactMemberItem,ContactMemberAdapter.
         holder.bind(currentItem)
     }
 
-    class ContactMemberViewHolder(private val binding: ContactMemberItemBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ContactMemberViewHolder(private val binding: ContactMemberItemBinding) : RecyclerView.ViewHolder(binding.root){
+
+        init {
+            binding.apply {
+                root.setOnClickListener{
+                    val position = adapterPosition
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.onItemClick(getItem(position))
+                    }
+                }
+            }
+        }
 
         fun bind(ContactMemberItem: ContactMemberItem){
             binding.apply {
@@ -35,6 +46,10 @@ class ContactMemberAdapter : ListAdapter<ContactMemberItem,ContactMemberAdapter.
 
         }
 
+    }
+
+    interface ContactMemberItemClickListener{
+        fun onItemClick(contactMemberItem: ContactMemberItem)
     }
     class DiffCallback : DiffUtil.ItemCallback<ContactMemberItem>() {
         override fun areItemsTheSame(oldItem: ContactMemberItem, newItem: ContactMemberItem) =
